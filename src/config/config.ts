@@ -4,6 +4,7 @@ dotenv.config();
 
 export const CONFIG = {
 	PORT: process.env.PORT || 8080,
+	PID: process.pid || 'PID',
 	MONGO_URL: process.env.MONGO_URL || 'MONGO_URL',
 	SECRET: process.env.SECRET || 'SECRET',
 	CLOUD_NAME: process.env.CLOUD_NAME || 'CLOUD_NAME',

@@ -1,0 +1,11 @@
+config: 
+  target: 'http://localhost:8080'
+  phases: 
+    - duration: 2.5
+      arrivalRate: 50
+      name: Warm up
+scenarios: 
+  - name: 'Test endpoint request'
+    flow: 
+      - get: 
+          url: '/api/products/list'

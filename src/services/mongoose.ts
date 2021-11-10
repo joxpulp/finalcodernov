@@ -1,6 +1,6 @@
 import { connect } from 'mongoose';
 import { CONFIG } from '../config/config';
-import { logger } from '../config/logs';
+import { logger } from './logs';
 
 export const mongoose = async (): Promise<void> => {
 	try {
