@@ -88,24 +88,6 @@ Signup JSON body template:
 | Text       |   phone    | User's phone (string, incl. code area) |
 | File       |   avatar   |        User's image (png, jpeg or jpg) |
 
-Protected Route: `USER` needs to be logged to access this route
-
-| Method |                        Route                        |                                                                                                                             Description |
-| ------ | :-------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------: |
-| PUT    | https://finalcoder3.herokuapp.com/api/auth/edituser | Update user fields by passing a form-data body (optional fields - if you want to update user's name just pass the name field and so on) |
-
-User's form-data body template:
-
-| Field Type | Field Name |                     Description |
-| ---------- | :--------: | ------------------------------: |
-| Text       |    name    |           User's name, (string) |
-| Text       |  lastname  |        User's lastname (string) |
-| Text       |    age     |             User's age (number) |
-| Text       |   cardId   |          User's cardId (string) |
-| Text       |  address   |         User's address (string) |
-| Text       |  password  |        User's password (string) |
-| File       |   avatar   | User's image (png, jpeg or jpg) |
-
 ## Products:
 
 Public Routes:
