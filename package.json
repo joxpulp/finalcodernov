@@ -27,6 +27,7 @@
 		"express-fileupload": "^1.2.1",
 		"express-session": "^1.17.2",
 		"log4js": "^6.3.0",
+		"mongodb": "^4.1.4",
 		"mongoose": "^6.0.12",
 		"nodemailer": "^6.7.0",
 		"os": "^0.1.2",
