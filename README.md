@@ -2,7 +2,7 @@
 
 E-commerce Backend Doc
 
-Backend: https://finalcoder3.herokuapp.com/api/products/list
+Backend: https://finalcoder3.herokuapp.com/
 
 ## Local Setup:
 
