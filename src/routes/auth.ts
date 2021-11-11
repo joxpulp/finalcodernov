@@ -7,12 +7,6 @@ import { editUser, login, signup } from '../helpers/yup';
 const router = Router();
 
 router.post('/login', validate(login), authController.login);
-router.put(
-	'/edituser',
-	isAuth,
-	validate(editUser),
-	authController.editUser
-);
 router.get('/logout', isAuth, authController.logout);
 router.post('/signup', validate(signup), authController.signup);
 router.get('/islogged', authController.isLogged);

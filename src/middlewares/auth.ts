@@ -108,32 +108,4 @@ export const isAuth = (req: Request, res: Response, done: NextFunction) => {
 	}
 };
 
-export const isAdmin = (req: Request, res: Response, done: NextFunction) => {
-	if (req.isAuthenticated() && req.user.isAdmin) {
-		done();
-	} else {
-		return res.status(401).json({
-			error: 'Not authorized, login with admin privilegies',
-		});
-	}
-};
-
-export const editUser = async (_id: string, newData: UpdateUserI) => {
-	await userModel.findOneAndUpdate(
-		{ _id },
-		{ $set: newData },
-		{ runValidators: true }
-	);
-
-	const findUpdated = await userModel.findById(_id, {
-		name: 1,
-		lastname: 1,
-		age: 1,
-		address: 1,
-		avatar: 1,
-		cardId: 1,
-	});
-	return findUpdated;
-};
-
 export default passport;

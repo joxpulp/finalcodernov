@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import passport, { editUser } from '../middlewares/auth';
+import passport from '../middlewares/auth';
 import cloudinary from '../services/cloudinary';
 import { userModel } from '../models/schemas/userschema';
 import { UploadedFile } from 'express-fileupload';
@@ -63,27 +63,6 @@ class AuthController {
 		return res
 			.status(404)
 			.json({ error: 'The is no session started or is already logout' });
-	}
-
-	async editUser(req: Request, res: Response) {
-
-		const data = {
-			...req.body,
-		};
-
-		if (req.files) {
-			const { tempFilePath } = req.files.avatar as UploadedFile;
-			await cloudinary.uploader.destroy(req.user!.avatar_id);
-			const { secure_url, public_id } = await cloudinary.uploader.upload(
-				tempFilePath,
-				{ folder: 'AVATARS' }
-			);
-			data.avatar = secure_url;
-			data.avatar_id = public_id;
-		}
-
-		const userUpdated = await editUser(req.user!._id, data);
-		return res.json({ userUpdated });
 	}
 }
 

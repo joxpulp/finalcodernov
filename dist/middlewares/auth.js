@@ -50,7 +50,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editUser = exports.isAdmin = exports.isAuth = void 0;
+exports.isAuth = void 0;
 var passport_1 = __importDefault(require("passport"));
 var passport_local_1 = require("passport-local");
 var userschema_1 = require("../models/schemas/userschema");
@@ -156,37 +156,4 @@ var isAuth = function (req, res, done) {
     }
 };
 exports.isAuth = isAuth;
-var isAdmin = function (req, res, done) {
-    if (req.isAuthenticated() && req.user.isAdmin) {
-        done();
-    }
-    else {
-        return res.status(401).json({
-            error: 'Not authorized, login with admin privilegies',
-        });
-    }
-};
-exports.isAdmin = isAdmin;
-var editUser = function (_id, newData) { return __awaiter(void 0, void 0, void 0, function () {
-    var findUpdated;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, userschema_1.userModel.findOneAndUpdate({ _id: _id }, { $set: newData }, { runValidators: true })];
-            case 1:
-                _a.sent();
-                return [4 /*yield*/, userschema_1.userModel.findById(_id, {
-                        name: 1,
-                        lastname: 1,
-                        age: 1,
-                        address: 1,
-                        avatar: 1,
-                        cardId: 1,
-                    })];
-            case 2:
-                findUpdated = _a.sent();
-                return [2 /*return*/, findUpdated];
-        }
-    });
-}); };
-exports.editUser = editUser;
 exports.default = passport_1.default;

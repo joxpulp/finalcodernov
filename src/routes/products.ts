@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { isAdmin } from '../middlewares/auth';
+import { isAuth } from '../middlewares/auth';
 import { productExist } from '../middlewares/productExist';
 import { productController } from '../controllers/products';
 import { validate } from '../middlewares/validate';
@@ -10,20 +10,20 @@ const router = Router();
 router.get('/list/:id?', productExist, validate(queryProduct), productController.getProduct);
 router.post(
 	'/add',
-	isAdmin,
+	isAuth,
 	validate(addProduct),
 	productController.addProduct
 );
 router.put(
 	'/update/:id',
-	isAdmin,
+	isAuth,
 	productExist,
 	validate(editProduct),
 	productController.updateProduct
 );
 router.delete(
 	'/delete/:id',
-	isAdmin,
+	isAuth,
 	productExist,
 	productController.deleteProduct
 );

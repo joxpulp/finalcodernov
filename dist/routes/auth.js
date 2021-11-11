@@ -7,7 +7,6 @@ var validate_1 = require("../middlewares/validate");
 var yup_1 = require("../helpers/yup");
 var router = express_1.Router();
 router.post('/login', validate_1.validate(yup_1.login), auth_1.authController.login);
-router.put('/edituser', auth_2.isAuth, validate_1.validate(yup_1.editUser), auth_1.authController.editUser);
 router.get('/logout', auth_2.isAuth, auth_1.authController.logout);
 router.post('/signup', validate_1.validate(yup_1.signup), auth_1.authController.signup);
 router.get('/islogged', auth_1.authController.isLogged);
