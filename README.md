@@ -1,6 +1,4 @@
-# Challenge Fullstack
-
-E-commerce Backend Doc
+# Final Proyect CoderHouse 3
 
 Backend: https://finalcoder3.herokuapp.com/
 
