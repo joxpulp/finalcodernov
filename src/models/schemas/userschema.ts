@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { UserI } from '../interfaces';
 
-const userCollection = 'user';
+const userCollection = 'userai';
 
 const userSchema = new Schema<UserI>(
 	{

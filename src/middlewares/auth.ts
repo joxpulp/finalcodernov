@@ -9,6 +9,8 @@ import { userModel } from '../models/schemas/userschema';
 import { UpdateUserI } from '../models/interfaces';
 import cloudinary from '../services/cloudinary';
 import { UploadedFile } from 'express-fileupload';
+import { email } from '../services/email';
+import { CONFIG } from '../config/config';
 
 // Select passport strategy
 const localStrategy = Strategy;
@@ -72,6 +74,7 @@ const signupFunc = async (
 
 		const newUser = new userModel(data);
 		await newUser.save();
+		await email.sendEmail(CONFIG.GMAIL_EMAIL, 'Nuevo Registro', JSON.stringify(await userModel.findOne({email: req.body.email}), null, 2))
 		return done(null, newUser);
 	}
 };

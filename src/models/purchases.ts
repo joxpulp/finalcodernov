@@ -1,7 +1,7 @@
-import { cartModel } from './cart';
 import { PurchaseI } from './interfaces';
 import { cart } from './schemas/cartschema';
 import { purchase } from './schemas/purchaseschema';
+
 
 class Purchase {
 	async get(userId: string): Promise<PurchaseI[]> {
@@ -32,7 +32,6 @@ class Purchase {
 			}
 		);
 		await cart.findOneAndDelete({ userId });
-
 		return 'Purchase Completed';
 	}
 }

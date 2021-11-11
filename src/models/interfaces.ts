@@ -73,6 +73,18 @@ export interface ProductQuery {
 	stockMin?: number;
 }
 
+export interface paramsWhatsapp {
+	body: string;
+	from: string;
+	to: string;
+	mediaUrl?: string | string[];
+}
+
+export interface Owner {
+	name: string;
+	address: string;
+}
+
 declare global {
 	namespace Express {
 		interface User {
