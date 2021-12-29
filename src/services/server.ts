@@ -8,6 +8,9 @@ import passport from '../middlewares/auth';
 import { mongoose } from './mongoose';
 import { CONFIG } from '../config/config';
 import apiRouter from '../routes/index';
+import swaggerUi from 'swagger-ui-express';
+import { specs } from '../config/swagger';
+
 
 mongoose();
 const app = express();
@@ -44,6 +47,14 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+// API DOCS
+app.use(
+	'/docs',
+	swaggerUi.serve,
+	swaggerUi.setup(specs, { customSiteTitle: 'Backend Coderhouse Final Project' })
+);
 
 app.get('/', (req: Request, res: Response) => {
 	res.json({ msg: 'Connected' });

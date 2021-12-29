@@ -1,24 +1,39 @@
 import { ObjectId } from 'mongoose';
 
+export interface ThumbnailsI {
+	thumbnail_id: string;
+	thumbnail: string;
+}
+
 export interface ProductI {
-	_id: string | ObjectId;
-	title?: string;
+	_id?: string | ObjectId;
+	name?: string;
 	description?: string;
-	code?: string;
+	category?: string;
 	price?: number;
 	stock?: number;
 	quantity?: number;
 	thumbnail?: string;
 	thumbnail_id?: string;
+	toObject(): any;
 }
 
 export interface NewProductI {
-	name: string;
-	description: string;
-	category: string;
-	thumbnail: string;
-	thumbnail_id: string;
-	price: number;
+	name?: string;
+	description?: string;
+	category?: string;
+	thumbnail?: string;
+	thumbnail_id?: string;
+	price?: number;
+	stock?: number;
+}
+
+export interface AddressI {
+	streetName?: string;
+	streetNumber?: number;
+	postalCode?: string;
+	floor?: number;
+	apt?: string;
 }
 
 export interface UserI {
@@ -28,11 +43,11 @@ export interface UserI {
 	name: string;
 	age: number;
 	email: string;
-	address: string;
-	password: string;
+	deliveryAddress: string;
+	pwd: string;
 	purchases?: any;
 	phone?: string;
-	isAdmin?: boolean;
+	admin?: boolean;
 	isValidPassword(password: string): Promise<boolean>;
 }
 
@@ -43,8 +58,12 @@ export interface UpdateUserI {
 	name?: string;
 	age?: number;
 	email?: string;
-	address?: string;
 	password?: string;
+	streetName?: string;
+	streetNumber?: number;
+	postalCode?: string;
+	floor?: string;
+	apt?: string;
 	phone?: string;
 }
 
@@ -53,6 +72,7 @@ export interface CartI {
 	userId?: string;
 	total?: number;
 	cartProducts?: ProductI[];
+	deliveryAddress?: AddressI;
 }
 
 export interface PurchaseI {
@@ -60,6 +80,7 @@ export interface PurchaseI {
 	userId?: string;
 	total?: number;
 	purchases?: ProductI[];
+	state?: string;
 }
 
 export interface ProductQuery {
@@ -94,7 +115,7 @@ declare global {
 			name?: string;
 			age?: number;
 			email?: string;
-			address?: string;
+			deliveryAddress?: AddressI;
 			password?: string;
 			phone?: string;
 			isAdmin?: boolean;

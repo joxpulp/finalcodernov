@@ -1,33 +1,34 @@
 import { products } from './schemas/productschema';
-import { NewProductI, ProductI, ProductQuery } from './interfaces';
+import { NewProductI, ProductI, ProductQuery, ThumbnailsI } from './interfaces';
 import { cartModel } from './cart';
 import { cart } from './schemas/cartschema';
 
-class Product {
-	async get(id?: string): Promise<ProductI[]> {
-		let outputGet: ProductI[] = [];
+class Thumbnail {
+	async get(id: string): Promise<ThumbnailsI[]> {
+		let outputGet: ThumbnailsI[] = [];
 
-		if (id) {
-			const singleProduct = await products.findById(id);
-			if (singleProduct) outputGet.push(singleProduct);
-		} else {
-			outputGet = await products.find();
-		}
-		return outputGet;
-	}
-	async getByCategory(category: string): Promise<ProductI[]> {
-		let outputGet: ProductI[] = [];
-
-		const productsByCat = await products.find({ category });
-		if (productsByCat) outputGet.push(...productsByCat);
-
+		const findById = await products.findOne(
+			{},
+			{ thumbnails: { $elemMatch: { thumbnail_id: id } } }
+		);
+		if (findById) outputGet.push(...findById.thumbnails!);
 		return outputGet;
 	}
 
 	async add(data: NewProductI): Promise<ProductI> {
-		const newProduct = new products(data);
-		await newProduct.save();
-		return newProduct;
+        const outputNew: ThumbnailsI[] = [];
+
+		await products.updateOne(
+			{}
+			{
+				$addToSet: {
+					thumbnails: data,
+				},
+			},
+			{ upsert: true }
+		);
+
+        ouputNew.push(findProduct);
 	}
 
 	async update(id: string, data: NewProductI): Promise<ProductI[]> {

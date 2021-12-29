@@ -6,9 +6,9 @@ const pruchaseCollection = 'purchase';
 const purchaseProductSchema = new Schema<ProductI>(
 	{
 		_id: { type: Schema.Types.ObjectId, ref: 'products' },
-		title: { type: String, required: true, max: 100 },
+		name: { type: String, required: true, max: 100 },
 		description: { type: String, required: true, max: 300 },
-		code: { type: String, required: true, max: 100 },
+		category: { type: String, required: true, max: 100 },
 		price: {
 			type: Number,
 			required: true,
@@ -25,8 +25,9 @@ const purchaseProductSchema = new Schema<ProductI>(
 const purchaseSchema = new Schema<PurchaseI>(
 	{
 		userId: { type: Schema.Types.ObjectId, ref: 'users' },
-		total: { type: Number },
 		purchases: [purchaseProductSchema],
+		state: { type: String, default: 'generated' },
+		total: { type: Number },
 	},
 	{ versionKey: false, timestamps: true }
 );

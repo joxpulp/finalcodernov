@@ -1,6 +1,6 @@
 import { productModel } from './product';
 import { cart } from './schemas/cartschema';
-import { CartI, ProductI } from './interfaces';
+import { CartI, ProductI, AddressI } from './interfaces';
 
 class Cart {
 	async get(userId: string, productId?: string): Promise<ProductI[] & CartI[]> {
@@ -21,18 +21,30 @@ class Cart {
 		return outputGet;
 	}
 
-	async add(userId: string, productId: string): Promise<ProductI[]> {
+	async add(
+		userId: string,
+		address: AddressI,
+		productId: string,
+		quantity: number
+	): Promise<ProductI> {
 		const [findProduct] = await productModel.get(productId);
+		const findProductPlain = findProduct.toObject(); // In order to add new properties to ouputNew object, findProduct needs to be converted to plain object.
 		const findProductCart = await this.get(userId, productId);
-		const ouputNew: ProductI[] = [];
+
+		const ouputNew: ProductI = findProductPlain;
+		ouputNew.quantity = quantity;
+		ouputNew.price = findProduct.price! * quantity;
 
 		if (findProductCart.length === 0) {
 			await cart.updateOne(
 				{ userId },
 				{
-					$inc: { total: findProduct.price },
+					$inc: {
+						total: ouputNew.price,
+					},
+					$set: { deliveryAddress: address },
 					$addToSet: {
-						cartProducts: findProduct,
+						cartProducts: ouputNew,
 					},
 				},
 				{ upsert: true }
@@ -42,27 +54,32 @@ class Cart {
 				{ userId, 'cartProducts._id': findProduct._id },
 				{
 					$inc: {
-						total: findProduct.price,
-						'cartProducts.$.quantity': 1,
-						'cartProducts.$.price': findProduct.price,
+						total: ouputNew.price,
+						'cartProducts.$.quantity': quantity,
+						'cartProducts.$.price': ouputNew.price,
 					},
 				}
 			);
 		}
 
-		ouputNew.push(findProduct);
+		//* Updates the stock to added product in cart
+		await productModel.update(productId, {
+			stock: findProduct.stock! - quantity,
+		});
 
 		return ouputNew;
 	}
 
 	async delete(userId: string, productId: string): Promise<ProductI[]> {
-		const [findProduct] = await this.get(userId, productId);
+		const [findProduct] = await productModel.get(productId);
+
+		const [findProductCart] = await this.get(userId, productId);
 		const outputDelete: ProductI[] = [];
 
 		await cart.updateMany(
 			{ userId },
 			{
-				$inc: { total: -findProduct.price! },
+				$inc: { total: -findProductCart.price! },
 				$pull: {
 					cartProducts: { _id: productId },
 				},
@@ -74,7 +91,12 @@ class Cart {
 		if (findById!.cartProducts!.length === 0)
 			await cart.findOneAndDelete({ userId });
 
-		outputDelete.push(findProduct);
+		outputDelete.push(findProductCart);
+
+		//* Updates the stock to deleted product in cart
+		await productModel.update(productId, {
+			stock: findProduct.stock! + findProductCart.quantity!,
+		});
 
 		return outputDelete;
 	}

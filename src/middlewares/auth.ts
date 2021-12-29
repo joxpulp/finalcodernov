@@ -18,7 +18,7 @@ const localStrategy = Strategy;
 // Define the strategy options, we use username field(email) and password field
 const strategyOptions: IStrategyOptionsWithRequest = {
 	usernameField: 'email',
-	passwordField: 'password',
+	passwordField: 'pwd',
 	passReqToCallback: true,
 };
 
@@ -47,13 +47,23 @@ const signupFunc = async (
 	password: string,
 	done: any
 ): Promise<VerifyFunctionWithRequest> => {
-
-	const data = {
-		...req.body,
-	};
+	const {
+		email,
+		pwd,
+		pwdConfirmation,
+		name,
+		age,
+		phone,
+		admin,
+		streetName,
+		streetNumber,
+		postalCode,
+		floor,
+		apt
+	} = req.body;
 
 	const user = await userModel.findOne({
-		$or: [{ email: req.body.email }],
+		email: email,
 	});
 
 	if (user) {
@@ -61,20 +71,32 @@ const signupFunc = async (
 			error: 'This email already exist, try with other option',
 		});
 	} else {
-
-		if (req.files) {
-			const { tempFilePath } = req.files.avatar as UploadedFile;
-			const { secure_url, public_id } = await cloudinary.uploader.upload(
-				tempFilePath,
-				{ folder: 'AVATARS' }
-			);
-			data.avatar = secure_url;
-			data.avatar_id = public_id;
-		}
-
-		const newUser = new userModel(data);
+		const randomAvatar = `https://avatars.dicebear.com/api/bottts/${Date.now()}.svg`;
+		const { secure_url, public_id } = await cloudinary.uploader.upload(
+			randomAvatar,
+			{
+				folder: 'AVATARS',
+				format: 'jpg',
+			}
+		);
+		const newUser = new userModel({
+			email,
+			pwd,
+			name,
+			age,
+			phone,
+			admin,
+			deliveryAddress: {
+				streetName,
+				streetNumber,
+				postalCode,
+				floor,
+				apt
+			},
+			avatar: secure_url,
+			avatar_id: public_id,
+		});
 		await newUser.save();
-		await email.sendEmail(CONFIG.GMAIL_EMAIL, 'Nuevo Registro', JSON.stringify(await userModel.findOne({email: req.body.email}), null, 2))
 		return done(null, newUser);
 	}
 };
@@ -103,9 +125,36 @@ export const isAuth = (req: Request, res: Response, done: NextFunction) => {
 	} else {
 		return res.status(401).json({
 			error: 'You are not logged',
-			logged: false,
+			loggedIn: false,
 		});
 	}
+};
+
+export const isAdmin = (req: Request, res: Response, done: NextFunction) => {
+	if (req.isAuthenticated() && req.user.isAdmin) {
+		done();
+	} else {
+		return res.status(401).json({
+			error: 'Not authorized, login with admin privilegies',
+		});
+	}
+};
+
+export const editUser = async (_id: string, newData: UpdateUserI) => {
+	await userModel.findOneAndUpdate(
+		{ _id },
+		{ $set: newData },
+		{ runValidators: true }
+	);
+
+	const findUpdated = await userModel.findById(_id, {
+		name: 1,
+		age: 1,
+		deliveryAddress: 1,
+		avatar: 1,
+		admin: 1,
+	});
+	return findUpdated;
 };
 
 export default passport;

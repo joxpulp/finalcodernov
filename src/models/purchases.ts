@@ -2,37 +2,51 @@ import { PurchaseI } from './interfaces';
 import { cart } from './schemas/cartschema';
 import { purchase } from './schemas/purchaseschema';
 
-
 class Purchase {
-	async get(userId: string): Promise<PurchaseI[]> {
-		const getPurchases = await purchase.findOne({ userId });
+	async get(userId: string, orderId?: string): Promise<PurchaseI[]> {
 		const outputGet: PurchaseI[] = [];
-		if (getPurchases) {
-			outputGet.push(getPurchases);
+
+		if (orderId) {
+			const getOrderById = await purchase.findOne({ userId, orderId });
+			outputGet.push(getOrderById!);
+			return outputGet;
 		}
+
+		const getPurchases = await purchase.findOne({ userId });
+		outputGet.push(getPurchases!);
 		return outputGet;
 	}
 
-	async purchase(userId: string): Promise<string> {
+	async newOrder(userId: string): Promise<string> {
 		const findCart = await cart.findOne({ userId });
-		const findOrders = await purchase.findOne({ userId });
 
-		if (findOrders === null) {
-			const newOrder = new purchase({ userId });
-			await newOrder.save();
-		}
+		const newOrder = new purchase({ userId });
+		await newOrder.save();
 
 		await purchase.updateOne(
-			{ userId },
+			{ _id: newOrder._id },
 			{
-				$inc: { total: findCart!.total },
+				$set: { total: findCart!.total },
 				$push: {
 					purchases: findCart!.cartProducts,
 				},
 			}
 		);
+
 		await cart.findOneAndDelete({ userId });
-		return 'Purchase Completed';
+		return 'Order generated';
+	}
+
+	async complete(userId: string, orderId: string): Promise<string> {
+		await purchase.updateOne(
+			{ userId, orderId },
+			{
+				$set: { state: 'completed' },
+				
+			}
+		);
+
+		return 'Order state changed to completed'
 	}
 }
 

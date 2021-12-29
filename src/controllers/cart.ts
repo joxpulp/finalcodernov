@@ -14,17 +14,22 @@ class CartController {
 				return res.json(findAll);
 			}
 		} catch (error) {
-			if (error instanceof Error) {
-				res.status(500).json({ error: error.message });
+			if (error instanceof Error) { 
+				res.status(500).json({ error: error.message }); 
 			}
 		}
 	}
 
 	async addProducts(req: Request, res: Response) {
 		try {
-			const { id } = req.params;
+			const { productId, quantity } = req.body; 
 
-			const productAdded = await cartModel.add(req.user!._id, id);
+			const productAdded = await cartModel.add(
+				req.user!._id,
+				req.user!.deliveryAddress!,
+				productId,
+				quantity
+			);
 			return res.json({ productAdded, msg: 'Product added to the cart' });
 		} catch (error) {
 			if (error instanceof Error) {

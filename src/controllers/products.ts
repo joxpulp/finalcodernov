@@ -14,18 +14,23 @@ class ProductController {
 				return res.json({ product: findById });
 			} else {
 
-				if (req.query) {
-					const productQuery = await productModel.query(req.query);
-					if (productQuery.length)
-						return res.json({
-							products: productQuery,
-						});
-					return res
-						.status(404)
-						.json({
-							error: 'No hay productos que hagan match con la busqueda',
-						});
-				}
+				const findAll = await productModel.get();
+				return res.json({ products: findAll });
+			}
+		} catch (error) {
+			if (error instanceof Error) {
+				res.status(500).json({ error: error.message });
+			}
+		}
+	}
+	async getProductsCat(req: Request, res: Response) {
+		try {
+			const { category } = req.params;
+
+			if (category) {
+				const findById = await productModel.getByCategory(category);
+				return res.json({ product: findById });
+			} else {
 
 				const findAll = await productModel.get();
 				return res.json({ products: findAll });

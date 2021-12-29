@@ -5,9 +5,9 @@ const productsCollection = 'product';
 
 const productsSchema = new Schema<ProductI>(
 	{
-		title: { type: String, required: true, max: 100 },
+		name: { type: String, required: true, max: 100 },
 		description: { type: String, required: true, max: 300 },
-		code: { type: String, required: true, max: 100 },
+		category: { type: String, required: true, max: 100 },
 		price: {
 			type: Number,
 			required: true,
