@@ -74,9 +74,9 @@ var Bot = /** @class */ (function () {
                         else {
                             response_2 = "Last order with id: " + lastOrder._id + " \nCurrent state: " + (lastOrder.state === 'generated' ? lastOrder.state : lastOrder.state) + " and " + (lastOrder.state === 'generated' ? 'will be delivered soon' : 'delivered') + "\nWith this products: \n";
                             lastOrder.purchases.map(function (product) {
-                                response_2 += "- " + product.name + ", Price: " + product.price + " USD, Qty: " + product.quantity;
+                                response_2 += "- " + product.name + ", Price: " + product.price + " USD, Qty: " + product.quantity + "\n";
                             });
-                            response_2 += "\nTotal: " + lastOrder.total + " USD";
+                            response_2 += "Total: " + lastOrder.total + " USD";
                         }
                         return [2 /*return*/, response_2];
                     case 5: return [4 /*yield*/, cartschema_1.cart.findOne({ userId: userId })];
@@ -89,9 +89,9 @@ var Bot = /** @class */ (function () {
                         else {
                             response_3 = 'Your cart has these products:\n';
                             currentCart.cartProducts.map(function (product) {
-                                response_3 += "- " + product.name + ", Price: " + product.price + ", Quantity: " + product.quantity;
+                                response_3 += "- " + product.name + ", Price: " + product.price + ", Quantity: " + product.quantity + "\n";
                             });
-                            response_3 += "\nTotal: " + currentCart.total + " USD";
+                            response_3 += "Total: " + currentCart.total + " USD";
                         }
                         return [2 /*return*/, response_3];
                     case 7: return [2 /*return*/, "Hi! I just couldn't understand your message.\nPlease type some of the following options:\n- Stock: To know our current stock.\n- Order: To get info of your last order.\n- Cart: To know info about your current cart.\n                "];

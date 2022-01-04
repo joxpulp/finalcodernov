@@ -28,9 +28,9 @@ class Bot {
 					response = `Last order with id: ${lastOrder._id} \nCurrent state: ${lastOrder.state === 'generated'? lastOrder.state : lastOrder.state} and ${lastOrder.state === 'generated' ? 'will be delivered soon' : 'delivered'}\nWith this products: \n`;
 					
 					lastOrder.purchases!.map((product) => {
-						response += `- ${product.name}, Price: ${product.price} USD, Qty: ${product.quantity}`;
+						response += `- ${product.name}, Price: ${product.price} USD, Qty: ${product.quantity}\n`;
 					});
-					response += `\nTotal: ${lastOrder.total} USD`;
+					response += `Total: ${lastOrder.total} USD`;
 				}
 
 				return response;
@@ -44,9 +44,9 @@ class Bot {
 				} else {
 					response = 'Your cart has these products:\n';
 					currentCart.cartProducts!.map((product) => {
-						response += `- ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}`;
+						response += `- ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}\n`;
 					});
-					response += `\nTotal: ${currentCart.total} USD`;
+					response += `Total: ${currentCart.total} USD`;
 				}
 				return response;
 			}
