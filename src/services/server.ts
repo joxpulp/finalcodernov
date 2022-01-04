@@ -61,7 +61,7 @@ app.use(
 
 app.use('/api', apiRouter);
 app.get('/*', (req: Request, res: Response) => {
-	const indexHtml = path.resolve('public/index.html');
+	const indexHtml = path.resolve('public/index.html ');
 	res.sendFile(indexHtml);
 });
 
