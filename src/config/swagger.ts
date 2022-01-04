@@ -4,7 +4,7 @@ const options = {
 	definition: {
 		openapi: '3.0.0',
 		info: {
-			title: 'Coderhouse Final Project',
+			title: 'Ecommerce Project',
 			version: '0.0.1',
 			description: 'Ecommerce API Application',
 			contact: {
@@ -14,7 +14,7 @@ const options = {
 		},
 		servers: [
 			{
-				url: 'https://coderecommerce.herokuapp.com/api',
+				url: 'https://hekitech.herokuapp.com/api',
 				description: 'Backend',
 			},
 		],
