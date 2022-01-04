@@ -52,21 +52,21 @@ export const signup = Yup.object({
 
 export const addProduct = Yup.object({
 	body: Yup.object({
-		title: Yup.string()
+		name: Yup.string()
 			.min(3, 'title field must be at least 3 characters')
 			.required('title field is required'),
 		description: Yup.string()
 			.min(20, 'description field must be at least 20 characters')
 			.required('description field is required'),
-		code: Yup.string()
-			.min(8, 'code field must be at least 8 characters')
-			.required('code field is required'),
 		price: Yup.number()
 			.min(10, 'price field min is 10')
 			.max(30000, 'price field max is 30000')
 			.required('price field is required'),
+		category: Yup.string()
+			.min(4, 'category field must be at least 4 characters')
+			.required('category field is required'),
 		stock: Yup.number()
-			.min(1, 'stock field min is 10')
+			.min(1, 'stock field min is 1')
 			.max(30000, 'stock field max is 30000')
 			.required('stock field is required'),
 	}).noUnknown(true),
@@ -94,31 +94,27 @@ export const addProductCart = Yup.object({
 export const editUser = Yup.object({
 	body: Yup.object({
 		email: Yup.string().email('email field is invalid'),
-		pwd: Yup.string().min(
-			8,
-			'password field must be at least 8 characters'
-		),
+		pwd: Yup.string().min(8, 'password field must be at least 8 characters'),
 		name: Yup.string().min(3, 'name field must be at least 3 characters'),
-		lastname: Yup.string().min(
-			3,
-			'lastname field must be at least 3 characters'
-		),
 		age: Yup.number().min(16, 'age field must be at least 16 or more'),
-		streetName: Yup.string()
-			.min(4, 'street name field must at least 4 characters or more')
-			.required('street name field is required'),
-		streetNumber: Yup.number()
-			.min(1, 'street number field must at least 1 characters or more')
-			.required('street number field is required'),
-		postalCode: Yup.string()
-			.max(4, 'postal code field must at least 10 characters or more')
-			.required('postal code field is required'),
+		streetName: Yup.string().min(
+			4,
+			'street name field must at least 4 characters or more'
+		),
+		streetNumber: Yup.number().min(
+			1,
+			'street number field must at least 1 characters or more'
+		),
+		postalCode: Yup.string().max(
+			4,
+			'postal code field must at least 10 characters or more'
+		),
 		floor: Yup.number().min(
 			1,
 			'floor field must at least 1 characters or more'
 		),
 		apt: Yup.string().min(1, 'apt field must at least 1 characters or more'),
-		phone: Yup.string().phone().required('phone field is required'),
+		phone: Yup.string(),
 		admin: Yup.boolean(),
 	}).noUnknown(true),
 	files: Yup.object({
@@ -146,6 +142,9 @@ export const editProduct = Yup.object({
 		price: Yup.number()
 			.min(10, 'price field min is 10')
 			.max(30000, 'price field max is 30000'),
+		stock: Yup.number()
+			.min(0, 'stock field min is 1')
+			.max(30000, 'stock field max is 30000')
 	}).noUnknown(true),
 	files: Yup.object({
 		thumbnail: Yup.mixed().test(

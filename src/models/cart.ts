@@ -1,6 +1,7 @@
 import { productModel } from './product';
 import { cart } from './schemas/cartschema';
 import { CartI, ProductI, AddressI } from './interfaces';
+import { products } from './schemas/productschema';
 
 class Cart {
 	async get(userId: string, productId?: string): Promise<ProductI[] & CartI[]> {
@@ -40,6 +41,7 @@ class Cart {
 				{ userId },
 				{
 					$inc: {
+						totalItems: quantity,
 						total: ouputNew.price,
 					},
 					$set: { deliveryAddress: address },
@@ -54,6 +56,7 @@ class Cart {
 				{ userId, 'cartProducts._id': findProduct._id },
 				{
 					$inc: {
+						totalItems: quantity,
 						total: ouputNew.price,
 						'cartProducts.$.quantity': quantity,
 						'cartProducts.$.price': ouputNew.price,
@@ -63,9 +66,12 @@ class Cart {
 		}
 
 		//* Updates the stock to added product in cart
-		await productModel.update(productId, {
-			stock: findProduct.stock! - quantity,
-		});
+		await products.updateOne(
+			{ _id: productId },
+			{
+				$inc: { stock: -quantity },
+			}
+		);
 
 		return ouputNew;
 	}
@@ -79,7 +85,10 @@ class Cart {
 		await cart.updateMany(
 			{ userId },
 			{
-				$inc: { total: -findProductCart.price! },
+				$inc: {
+					total: -findProductCart.price!,
+					totalItems: -findProductCart.quantity!,
+				},
 				$pull: {
 					cartProducts: { _id: productId },
 				},

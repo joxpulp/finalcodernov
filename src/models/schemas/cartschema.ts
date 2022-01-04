@@ -38,6 +38,7 @@ const cartSchema = new Schema<CartI>(
 	{
 		userId: { type: Schema.Types.ObjectId, ref: 'users' },
 		total: { type: Number },
+		totalItems: { type: Number },
 		cartProducts: [cartProductSchema],
 		deliveryAddress: [address],
 	},

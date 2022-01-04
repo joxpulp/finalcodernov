@@ -22,11 +22,11 @@ class AuthController {
 							avatar: user.avatar,
 							admin: user.admin,
 						},
-						logged: true,
+						loggedIn: true,
 					});
 				});
 			} else {
-				return res.status(401).json({ ...info, logged: false });
+				return res.status(401).json({ ...info, loggedIn: false });
 			}
 		})(req, res, next);
 	}
@@ -57,16 +57,16 @@ class AuthController {
 
 	isLoggedIn(req: Request, res: Response) {
 		if (req.user) {
-			return res.json({ logged: true });
+			return res.json({ loggedIn: true });
 		} else {
-			return res.status(404).json({ logged: false });
+			return res.status(404).json({ loggedIn: false });
 		}
 	}
 
 	logout(req: Request, res: Response) {
 		if (req.user) {
 			req.logout();
-			return res.json({ msg: 'Session ended', logged: false });
+			return res.json({ msg: 'Session ended', loggedIn: false });
 		}
 
 		return res

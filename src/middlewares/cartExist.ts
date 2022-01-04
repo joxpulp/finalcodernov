@@ -25,7 +25,7 @@ export const cartExist = async (
 				return next();
 			}
 			return res.status(404).json({
-				error: 'There is no cart in db',
+				error: 'No cart created for this user, try to add some products',
 			});
 		}
 	} catch (error) {

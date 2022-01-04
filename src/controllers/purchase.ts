@@ -3,7 +3,6 @@ import { CONFIG } from '../config/config';
 import { cartModel } from '../models/cart';
 import { purchaseModel } from '../models/purchases';
 import { email } from '../services/email';
-import { whatsapp } from '../services/whatsapp';
 
 class PurchaseController {
 	async getOrders(req: Request, res: Response) {
@@ -16,7 +15,7 @@ class PurchaseController {
 		}
 		const findAll = await purchaseModel.get(req.user!._id);
 		if (findAll.length) {
-			return res.json(...findAll);
+			return res.json(findAll);
 		}
 
 		return res.status(404).json({ error: 'No orders for this user' });
@@ -31,7 +30,7 @@ class PurchaseController {
 
 		await email.sendEmail(
 			CONFIG.GMAIL_EMAIL,
-			`Nuevo compra de ${req.user!.name} | ${req.user!.email}`,
+			`Nueva orden generada para ${req.user!.name} | ${req.user!.email}`,
 			productTitles
 		);
 
@@ -50,7 +49,7 @@ class PurchaseController {
 			await email.sendEmail(
 				CONFIG.GMAIL_EMAIL,
 				`Notificacion para ${req.user!.name} | ${req.user!.email}`,
-				'El esto de su orden fue cambiada a completada'
+				'El estado de su orden fue cambiada a completada'
 			);
 			return res.json({ msg: completeOrder });
 		}

@@ -1,4 +1,7 @@
 import { ObjectId } from 'mongoose';
+import type { IncomingMessage } from 'http';
+import type { SessionData } from 'express-session';
+import type { Socket } from 'socket.io';
 
 export interface ThumbnailsI {
 	thumbnail_id: string;
@@ -71,6 +74,7 @@ export interface CartI {
 	_id: string | ObjectId;
 	userId?: string;
 	total?: number;
+	totalItems?: number;
 	cartProducts?: ProductI[];
 	deliveryAddress?: AddressI;
 }
@@ -106,6 +110,12 @@ export interface Owner {
 	address: string;
 }
 
+export interface Messages {
+	userId: ObjectId;
+	type: string;
+	message: string;
+}
+
 declare global {
 	namespace Express {
 		interface User {
@@ -125,4 +135,12 @@ declare global {
 	interface Error {
 		errors: string[];
 	}
+}
+
+interface SessionIncomingMessage extends IncomingMessage {
+	user: string;
+}
+
+export interface SessionSocket extends Socket {
+	request: SessionIncomingMessage;
 }

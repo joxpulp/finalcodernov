@@ -13,7 +13,6 @@ class ProductController {
 				const findById = await productModel.get(id);
 				return res.json({ product: findById });
 			} else {
-
 				const findAll = await productModel.get();
 				return res.json({ products: findAll });
 			}
@@ -31,7 +30,6 @@ class ProductController {
 				const findById = await productModel.getByCategory(category);
 				return res.json({ product: findById });
 			} else {
-
 				const findAll = await productModel.get();
 				return res.json({ products: findAll });
 			}
@@ -59,9 +57,8 @@ class ProductController {
 				data.thumbnail_id = public_id;
 			}
 
-			const newProduct = await productModel.add(data);
-			return res.json(newProduct);
-
+			const addedProduct = await productModel.add(data);
+			return res.json({ addedProduct, msg: 'Product Added' });
 		} catch (error) {
 			if (error instanceof Error) {
 				res.status(500).json({ error: error.message });
@@ -94,7 +91,6 @@ class ProductController {
 
 			const updatedProduct = await productModel.update(id, data);
 			return res.status(201).json({ updatedProduct, msg: 'Product Updated' });
-
 		} catch (error) {
 			if (error instanceof Error) {
 				res.status(500).json({ error: error.message });
@@ -112,7 +108,6 @@ class ProductController {
 
 			const deletedProduct = await productModel.delete(id);
 			return res.json({ deletedProduct, msg: 'Product Deleted' });
-			
 		} catch (error) {
 			if (error instanceof Error) {
 				res.status(500).json({ error: error.message });

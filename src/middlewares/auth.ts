@@ -124,7 +124,7 @@ export const isAuth = (req: Request, res: Response, done: NextFunction) => {
 		done();
 	} else {
 		return res.status(401).json({
-			error: 'You are not logged',
+			error: 'You are not logged in',
 			loggedIn: false,
 		});
 	}

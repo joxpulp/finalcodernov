@@ -16,7 +16,7 @@ import { editUser, login, signup } from '../helpers/yup';
  *           description: User's email (must be a valid email)
  *           example: bokitforever@gmail.com
  *           required: true
- *         password:
+ *         pwd:
  *           type: String
  *           description: User's password (min. 8 characters)
  *           example: bokitaforever
@@ -59,10 +59,22 @@ import { editUser, login, signup } from '../helpers/yup';
  *               type: String
  *               description: User's apt (if exist)
  *               example: D
+ *             _id: 
+ *               type: String
+ *               description: Delivery Address id
+ *               example: 61cc63f216a811331a5009c4
+ *         phone:
+ *           type: String
+ *           description: User's phone
+ *           example: "1128576884"
  *         avatar:
  *           type: String
  *           description: User's avatar url
  *           example: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *         admin:
+ *           type: Boolean
+ *           description: User's role (false by default)
+ *           example: false
  *     LoginError:
  *       type: object
  *       properties:
@@ -206,7 +218,7 @@ import { editUser, login, signup } from '../helpers/yup';
  *         error:
  *           type: String
  *           description: Error message
- *           example: This email or cardId already exist, try with other option
+ *           example: This email already exist, try with other option
  *     ValidationErrors: 
  *       type: object
  *       properties:
@@ -312,6 +324,12 @@ router.post('/login', validate(login), authController.login);
  *           application/json:
  *             schema: 
  *               $ref: '#/components/schemas/ValidationErrors'
+ *       401:
+ *         description: Unauthorized, if user is not logged in
+ *         content:
+ *           application/json:
+ *             schema: 
+ *               $ref: '#/components/schemas/AuthError'
  */
 
 router.patch(

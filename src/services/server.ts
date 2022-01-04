@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import * as http from 'http';
 import fileupload from 'express-fileupload';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -11,9 +12,16 @@ import apiRouter from '../routes/index';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from '../config/swagger';
 
-
 mongoose();
 const app = express();
+
+export const sessionMiddleware = session({
+	store: connectMongo.create({ mongoUrl: CONFIG.MONGO_URL }),
+	secret: CONFIG.SECRET,
+	cookie: { sameSite: false, secure: 'auto' },
+	saveUninitialized: false,
+	resave: true,
+});
 
 app.set('json spaces', 2);
 app.use(express.json());
@@ -31,29 +39,21 @@ app.use(cookieParser());
 app.use(
 	cors({
 		origin: true,
-		methods: ['GET', 'POST', 'PUT', 'DELETE'],
+		methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 		credentials: true,
 	})
 );
-app.use(
-	session({
-		store: connectMongo.create({ mongoUrl: CONFIG.MONGO_URL }),
-		secret: CONFIG.SECRET,
-		cookie: { sameSite: true, secure: 'auto', maxAge: 1000 * 120 },
-		saveUninitialized: false,
-		resave: true,
-		rolling: true,
-	})
-);
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // API DOCS
 app.use(
 	'/docs',
 	swaggerUi.serve,
-	swaggerUi.setup(specs, { customSiteTitle: 'Backend Coderhouse Final Project' })
+	swaggerUi.setup(specs, {
+		customSiteTitle: 'Backend Coderhouse Final Project',
+	})
 );
 
 app.get('/', (req: Request, res: Response) => {
@@ -61,4 +61,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 app.use('/api', apiRouter);
 
-export default app;
+const server = new http.Server(app);
+
+export default server;

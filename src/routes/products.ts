@@ -39,6 +39,9 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               price:
  *                 type: number
  *                 description: Product's price (USD)
+ *               stock:
+ *                 type: number
+ *                 description: Product's stock
  *           example: 
  *             -  _id:  6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
@@ -47,6 +50,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *                thumbnail:  https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
  *                thumbnail_id:  PRODUCTS/cyth979mt7m83r8rkis1
  *                price:  60
+ *                stock:  560
  *             -  _id:  617fe479c79d9be003c0fa25
  *                name: Piluso Boca Juniors
  *                description:  Para ir a la moda toca user este piluso   
@@ -54,6 +58,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *                thumbnail:  https://http2.mlstatic.com/D_NQ_NP_958291-MLA40333873535_012020-O.jpg 
  *                thumbnail_id:  PRODUCTS/axhw979mt7m83r8rkihx
  *                price:  10
+ *                stock:  400
  *     ProductsResponseCat:
  *       type: object 
  *       properties: 
@@ -143,6 +148,9 @@ import { productsByCat } from '../middlewares/productsByCat';
  *         price:
  *           type: number
  *           description: Product's price
+ *         stock:
+ *           type: number
+ *           description: Product's stock
  *     AddProductResponse:
  *       type: object
  *       properties:
@@ -173,6 +181,10 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               type: Number
  *               description: Product's price (USD)
  *               example: 10
+ *             stock:
+ *               type: Number
+ *               description: Product's stock
+ *               example: 500
  *             _id:
  *               type: String
  *               description: Product's id
@@ -211,6 +223,10 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               type: Number
  *               description: Product's price (USD)
  *               example: 10
+ *             stock:
+ *               type: Number
+ *               description: Product's stock
+ *               example: 600
  *             _id:
  *               type: String
  *               description: Product's id
@@ -249,9 +265,9 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               price:
  *                 type: number
  *                 description: Product's price
- *               quantity:
+ *               stock:
  *                 type: number
- *                 description: Product's quantity
+ *                 description: Product's stock
  *           example:
  *             -  _id: 6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
@@ -260,7 +276,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
  *                thumbnail_id: PRODUCTS/cyth979mt7m83r8rkis1
  *                price: 120
- *                quantity: 2
+ *                stock: 700
  *         msg:
  *           type: String
  *           description: Success message

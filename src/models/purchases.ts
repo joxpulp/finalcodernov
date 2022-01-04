@@ -1,19 +1,23 @@
 import { PurchaseI } from './interfaces';
 import { cart } from './schemas/cartschema';
 import { purchase } from './schemas/purchaseschema';
-
+// TODO REVISAR BIEN ESTO
 class Purchase {
 	async get(userId: string, orderId?: string): Promise<PurchaseI[]> {
 		const outputGet: PurchaseI[] = [];
 
 		if (orderId) {
-			const getOrderById = await purchase.findOne({ userId, orderId });
-			outputGet.push(getOrderById!);
+			const getOrderById = await purchase.findOne({ _id: orderId, userId });
+			if (getOrderById) {
+				outputGet.push(getOrderById!);
+			}
 			return outputGet;
 		}
 
-		const getPurchases = await purchase.findOne({ userId });
-		outputGet.push(getPurchases!);
+		const getPurchases = await purchase.find({ userId });
+		if (getPurchases) {
+			outputGet.push(...getPurchases!);
+		}
 		return outputGet;
 	}
 
@@ -42,11 +46,10 @@ class Purchase {
 			{ userId, orderId },
 			{
 				$set: { state: 'completed' },
-				
 			}
 		);
 
-		return 'Order state changed to completed'
+		return 'Order state changed to completed';
 	}
 }
 

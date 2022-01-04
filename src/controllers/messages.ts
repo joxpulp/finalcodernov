@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { messagesModel } from '../models/messages';
+// import { messagesModel } from '../models/bot';
 
 class Messages {
 	async getMsg(req: Request, res: Response) {
 		try {
 			const { message } = req.params;
-			const response = await messagesModel.getMessages(message, req.user!._id);
+			const response = 'asda'
 
 			return res.json({ response });
 		} catch (error) {}
