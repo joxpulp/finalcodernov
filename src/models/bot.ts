@@ -42,7 +42,7 @@ class Bot {
 				if (currentCart === null) {
 					response = 'Your cart is empty';
 				} else {
-					response = 'Your cart has this products:\n';
+					response = 'Your cart has these products:\n';
 					currentCart.cartProducts!.map((product) => {
 						response += `- ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}\n`;
 					});
