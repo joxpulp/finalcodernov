@@ -11,6 +11,7 @@ import { CONFIG } from '../config/config';
 import apiRouter from '../routes/index';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from '../config/swagger';
+import path from 'path';
 
 mongoose();
 const app = express();
@@ -24,6 +25,7 @@ export const sessionMiddleware = session({
 	rolling: true,
 });
 
+app.use(express.static(path.resolve('public')));
 app.set('json spaces', 2);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -57,10 +59,11 @@ app.use(
 	})
 );
 
-app.get('/', (req: Request, res: Response) => {
-	res.json({ msg: 'Connected' });
-});
 app.use('/api', apiRouter);
+app.get('/*', (req: Request, res: Response) => {
+	const indexHtml = path.resolve('public/index.html');
+	res.sendFile(indexHtml);
+});
 
 const server = new http.Server(app);
 
