@@ -16,7 +16,7 @@ class Product {
 	}
 	async getByCategory(category: string): Promise<ProductI[]> {
 		let outputGet: ProductI[] = [];
-		const catFormatter = category.charAt(0).toUpperCase() + category.slice(1);
+		const catFormatter = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
 
 		const productsByCat = await products.find({ category: catFormatter });
 		if (productsByCat) outputGet.push(...productsByCat);
