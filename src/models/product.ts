@@ -1,6 +1,5 @@
 import { products } from './schemas/productschema';
 import { NewProductI, ProductI, ProductQuery } from './interfaces';
-import { cartModel } from './cart';
 import { cart } from './schemas/cartschema';
 
 class Product {
@@ -17,8 +16,9 @@ class Product {
 	}
 	async getByCategory(category: string): Promise<ProductI[]> {
 		let outputGet: ProductI[] = [];
+		const catFormatter = category.charAt(0).toUpperCase() + category.slice(1);
 
-		const productsByCat = await products.find({ category });
+		const productsByCat = await products.find({ category: catFormatter });
 		if (productsByCat) outputGet.push(...productsByCat);
 
 		return outputGet;

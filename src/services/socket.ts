@@ -3,17 +3,22 @@ import { Server } from 'socket.io';
 import passport from '../middlewares/auth';
 import { botModel } from '../models/bot';
 import { messages } from '../models/schemas/messages';
+import { logger } from './logs';
 import { sessionMiddleware } from './server';
 // Socket Server
 export const ioServer = (server: http.Server) => {
 	const io = new Server(server);
+
+	// Middleware Wrapper
 	const wrap = (middleware: any) => (socket: any, next: any) =>
 		middleware(socket.request, {}, next);
 
+	// Middlewares to pass user information and the current session details to socket.request
 	io.use(wrap(sessionMiddleware));
 	io.use(wrap(passport.initialize()));
 	io.use(wrap(passport.session()));
 
+	// Check if a user exist (logged) if not return Error
 	io.use((socket: any, next) => {
 		if (socket.request.user) {
 			next();
@@ -23,7 +28,7 @@ export const ioServer = (server: http.Server) => {
 	});
 
 	io.on('connection', async (socket) => {
-		console.log('Client Authorized and Connected');
+		logger.info('Client Authorized and Connected');
 
 		try {
 			socket.on('sendMessage', async (message) => {
@@ -41,7 +46,7 @@ export const ioServer = (server: http.Server) => {
 					const botResponse = new messages({
 						// @ts-ignore
 						userId: socket.request.user._id,
-						type: 'HekiBOT',
+						type: '🤖 HekiBOT 🤖',
 						message: await botModel.getResponse(
 							message,
 							// @ts-ignore
@@ -51,7 +56,7 @@ export const ioServer = (server: http.Server) => {
 
 					await botResponse.save();
 				} catch (error) {
-					console.log(error);
+					logger.error(error);
 				}
 				io.emit(
 					'messages',
@@ -67,19 +72,13 @@ export const ioServer = (server: http.Server) => {
 			);
 
 			socket.on('delete', async () => {
-				console.log('Messages Deleted');
+				logger.info('Messages Deleted');
 				// @ts-ignore
 				await messages.deleteMany({ userId: socket.request.user._id });
 			});
 		} catch (error) {
-			console.log(error);
+			logger.error(error);
 		}
-	});
-
-	io.on('disconnect', async () => {
-		console.log('deleted');
-		// @ts-ignore
-		await messages.deleteMany({ userId: socket.request.user._id });
 	});
 
 	return io;

@@ -1,20 +1,19 @@
-import { PurchaseI } from './interfaces';
+import { OrderI } from './interfaces';
 import { cart } from './schemas/cartschema';
-import { purchase } from './schemas/purchaseschema';
-// TODO REVISAR BIEN ESTO
-class Purchase {
-	async get(userId: string, orderId?: string): Promise<PurchaseI[]> {
-		const outputGet: PurchaseI[] = [];
+import { order } from './schemas/orderschema';
+class Order {
+	async get(userId: string, orderId?: string): Promise<OrderI[]> {
+		const outputGet: OrderI[] = [];
 
 		if (orderId) {
-			const getOrderById = await purchase.findOne({ _id: orderId, userId });
+			const getOrderById = await order.findOne({ _id: orderId, userId });
 			if (getOrderById) {
 				outputGet.push(getOrderById!);
 			}
 			return outputGet;
 		}
 
-		const getPurchases = await purchase.find({ userId });
+		const getPurchases = await order.find({ userId });
 		if (getPurchases) {
 			outputGet.push(...getPurchases!);
 		}
@@ -24,10 +23,10 @@ class Purchase {
 	async newOrder(userId: string): Promise<string> {
 		const findCart = await cart.findOne({ userId });
 
-		const newOrder = new purchase({ userId });
+		const newOrder = new order({ userId });
 		await newOrder.save();
 
-		await purchase.updateOne(
+		await order.updateOne(
 			{ _id: newOrder._id },
 			{
 				$set: { total: findCart!.total },
@@ -42,7 +41,7 @@ class Purchase {
 	}
 
 	async complete(userId: string, orderId: string): Promise<string> {
-		await purchase.updateOne(
+		await order.updateOne(
 			{ userId, orderId },
 			{
 				$set: { state: 'completed' },
@@ -53,4 +52,4 @@ class Purchase {
 	}
 }
 
-export const purchaseModel = new Purchase();
+export const orderModel = new Order();

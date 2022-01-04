@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { TrustProductsEntityAssignmentsList } from 'twilio/lib/rest/trusthub/v1/trustProducts/trustProductsEntityAssignments';
 import { CartI, ProductI, AddressI } from '../interfaces';
 
 const cartCollection = 'cart';

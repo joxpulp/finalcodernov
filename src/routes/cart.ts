@@ -4,7 +4,6 @@ import { addProductCart } from '../helpers/yup';
 import { isAuth } from '../middlewares/auth';
 import { cartExist } from '../middlewares/cartExist';
 import { checkStock } from '../middlewares/checkStock';
-import { productExist } from '../middlewares/productExist';
 import { validate } from '../middlewares/validate';
 
 /**

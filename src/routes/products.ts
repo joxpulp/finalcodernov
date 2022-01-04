@@ -3,7 +3,7 @@ import { isAuth } from '../middlewares/auth';
 import { productExist } from '../middlewares/productExist';
 import { productController } from '../controllers/products';
 import { validate } from '../middlewares/validate';
-import { addProduct, editProduct, queryProduct } from '../helpers/yup';
+import { addProduct, editProduct } from '../helpers/yup';
 import { productsByCat } from '../middlewares/productsByCat';
 
 /**

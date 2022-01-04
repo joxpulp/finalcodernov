@@ -1,6 +1,6 @@
 import { cart } from './schemas/cartschema';
 import { products } from './schemas/productschema';
-import { purchase } from './schemas/purchaseschema';
+import { order } from './schemas/orderschema';
 
 class Bot {
 	async getResponse(message: string, userId?: string) {
@@ -14,7 +14,7 @@ class Bot {
 				return response;
 			}
 			case 'order': {
-				const lastOrder = await purchase.findOne(
+				const lastOrder = await order.findOne(
 					{ userId },
 					{},
 					{ sort: { createdAt: -1 } }

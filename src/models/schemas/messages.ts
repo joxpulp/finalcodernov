@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Messages } from '../interfaces';
 
-const messagesCollection = 'mensajes';
+const messagesCollection = 'message';
 
 const messagesSchema = new Schema<Messages>(
 	{

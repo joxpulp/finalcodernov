@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import cloudinary from '../services/cloudinary';
 import { productModel } from '../models/product';
-import { cartModel } from '../models/cart';
 import { UploadedFile } from 'express-fileupload';
 
 class ProductController {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { purchaseController } from '../controllers/purchase';
+import { orderController } from '../controllers/order';
 import { isAuth } from '../middlewares/auth';
 import { cartExist } from '../middlewares/cartExist';
 
@@ -158,7 +158,7 @@ const router = Router();
  *
  */
 
-router.get('/list/:orderId?', isAuth, purchaseController.getOrders);
+router.get('/list/:orderId?', isAuth, orderController.getOrders);
 
 /**
  * @swagger
@@ -194,7 +194,7 @@ router.get('/list/:orderId?', isAuth, purchaseController.getOrders);
  *
  */
 
-router.post('/new', isAuth, cartExist, purchaseController.newOrder);
+router.post('/new', isAuth, cartExist, orderController.newOrder);
 
 /**
  * @swagger
@@ -246,6 +246,6 @@ router.post('/new', isAuth, cartExist, purchaseController.newOrder);
  *
  */
 
-router.post('/complete', isAuth, purchaseController.complete);
+router.post('/complete', isAuth, orderController.complete);
 
 export default router;

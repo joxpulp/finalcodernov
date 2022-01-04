@@ -8,9 +8,6 @@ import {
 import { userModel } from '../models/schemas/userschema';
 import { UpdateUserI } from '../models/interfaces';
 import cloudinary from '../services/cloudinary';
-import { UploadedFile } from 'express-fileupload';
-import { email } from '../services/email';
-import { CONFIG } from '../config/config';
 
 // Select passport strategy
 const localStrategy = Strategy;
@@ -50,7 +47,6 @@ const signupFunc = async (
 	const {
 		email,
 		pwd,
-		pwdConfirmation,
 		name,
 		age,
 		phone,
@@ -59,7 +55,7 @@ const signupFunc = async (
 		streetNumber,
 		postalCode,
 		floor,
-		apt
+		apt,
 	} = req.body;
 
 	const user = await userModel.findOne({
@@ -91,7 +87,7 @@ const signupFunc = async (
 				streetNumber,
 				postalCode,
 				floor,
-				apt
+				apt,
 			},
 			avatar: secure_url,
 			avatar_id: public_id,

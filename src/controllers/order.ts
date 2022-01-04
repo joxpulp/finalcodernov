@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
 import { CONFIG } from '../config/config';
 import { cartModel } from '../models/cart';
-import { purchaseModel } from '../models/purchases';
+import { orderModel } from '../models/order';
 import { email } from '../services/email';
 
-class PurchaseController {
+class OrderController {
 	async getOrders(req: Request, res: Response) {
 		const { orderId } = req.params;
 		if (orderId) {
-			const findById = await purchaseModel.get(req.user!._id, orderId);
+			const findById = await orderModel.get(req.user!._id, orderId);
 			if (findById.length) {
 				return res.json(...findById);
 			}
 		}
-		const findAll = await purchaseModel.get(req.user!._id);
+		const findAll = await orderModel.get(req.user!._id);
 		if (findAll.length) {
 			return res.json(findAll);
 		}
@@ -23,14 +23,15 @@ class PurchaseController {
 
 	async newOrder(req: Request, res: Response) {
 		const [cart] = await cartModel.get(req.user!._id);
-		const productTitles = cart
-			.cartProducts!.map((cart) => cart.name)
-			.toString();
-		const purchase = await purchaseModel.newOrder(req.user!._id);
+
+		let productTitles = '';
+		cart.cartProducts!.map((cart) => (productTitles += `- ${cart.name}\n`));
+
+		const purchase = await orderModel.newOrder(req.user!._id);
 
 		await email.sendEmail(
 			CONFIG.GMAIL_EMAIL,
-			`Nueva orden generada para ${req.user!.name} | ${req.user!.email}`,
+			`New order notification | ${req.user!.name} | ${req.user!.email}`,
 			productTitles
 		);
 
@@ -40,16 +41,16 @@ class PurchaseController {
 	async complete(req: Request, res: Response) {
 		const { orderId } = req.body;
 
-		const findById = await purchaseModel.get(req.user!._id, orderId);
+		const findById = await orderModel.get(req.user!._id, orderId);
 		if (findById.length) {
-			const completeOrder = await purchaseModel.complete(
+			const completeOrder = await orderModel.complete(
 				req.user!._id,
 				orderId
 			);
 			await email.sendEmail(
 				CONFIG.GMAIL_EMAIL,
-				`Notificacion para ${req.user!.name} | ${req.user!.email}`,
-				'El estado de su orden fue cambiada a completada'
+				`Order notification | ${req.user!.name} | ${req.user!.email}`,
+				'The state of your order changed to completed'
 			);
 			return res.json({ msg: completeOrder });
 		}
@@ -57,4 +58,4 @@ class PurchaseController {
 	}
 }
 
-export const purchaseController = new PurchaseController();
+export const orderController = new OrderController();
