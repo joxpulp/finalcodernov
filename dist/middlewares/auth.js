@@ -44,6 +44,7 @@ var passport_1 = __importDefault(require("passport"));
 var passport_local_1 = require("passport-local");
 var userschema_1 = require("../models/schemas/userschema");
 var cloudinary_1 = __importDefault(require("../services/cloudinary"));
+var config_1 = require("../config/config");
 // Select passport strategy
 var localStrategy = passport_local_1.Strategy;
 // Define the strategy options, we use username field(email) and password field
@@ -92,13 +93,15 @@ var signupFunc = function (req, username, password, done) { return __awaiter(voi
                 return [2 /*return*/, done(null, false, {
                         error: 'This email already exist, try with other option',
                     })];
-            case 2:
+            case 2: return [4 /*yield*/, email.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "Welcome " + req.user.name, "Hi " + req.user.name + ", this email is to inform you that you are now registered \n\t\t\t\t\t")];
+            case 3:
+                _c.sent();
                 randomAvatar = "https://avatars.dicebear.com/api/bottts/" + Date.now() + ".svg";
                 return [4 /*yield*/, cloudinary_1.default.uploader.upload(randomAvatar, {
                         folder: 'AVATARS',
                         format: 'jpg',
                     })];
-            case 3:
+            case 4:
                 _b = _c.sent(), secure_url = _b.secure_url, public_id = _b.public_id;
                 newUser = new userschema_1.userModel({
                     email: email,
@@ -118,7 +121,7 @@ var signupFunc = function (req, username, password, done) { return __awaiter(voi
                     avatar_id: public_id,
                 });
                 return [4 /*yield*/, newUser.save()];
-            case 4:
+            case 5:
                 _c.sent();
                 return [2 /*return*/, done(null, newUser)];
         }

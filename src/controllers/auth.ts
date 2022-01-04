@@ -2,9 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import passport, { editUser } from '../middlewares/auth';
 import cloudinary from '../services/cloudinary';
 import { UploadedFile } from 'express-fileupload';
-import { email } from '../services/email';
-import { CONFIG } from '../config/config';
-
 class AuthController {
 	login(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate('login', (err, user, info) => {
@@ -33,18 +30,10 @@ class AuthController {
 	}
 
 	signup(req: Request, res: Response, next: NextFunction) {
-		passport.authenticate('signup', async (err, user, info) => {
+		passport.authenticate('signup', (err, user, info) => {
 			if (err) return next(err);
 
 			if (user) {
-				await email.sendEmail(
-					CONFIG.GMAIL_EMAIL,
-					`Welcome ${req.user!.name}`,
-					`Hi ${
-						req.user!.name
-					}, this email is to inform you that you are now registered 
-					`
-				);
 				return res.status(201).json({
 					userData: {
 						_id: user._id,

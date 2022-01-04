@@ -72,8 +72,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
 var auth_1 = __importStar(require("../middlewares/auth"));
 var cloudinary_1 = __importDefault(require("../services/cloudinary"));
-var email_1 = require("../services/email");
-var config_1 = require("../config/config");
 var AuthController = /** @class */ (function () {
     function AuthController() {
     }
@@ -104,34 +102,28 @@ var AuthController = /** @class */ (function () {
         })(req, res, next);
     };
     AuthController.prototype.signup = function (req, res, next) {
-        var _this = this;
-        auth_1.default.authenticate('signup', function (err, user, info) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (err)
-                            return [2 /*return*/, next(err)];
-                        if (!user) return [3 /*break*/, 2];
-                        return [4 /*yield*/, email_1.email.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "Welcome " + req.user.name, "Hi " + req.user.name + ", this email is to inform you that you are now registered \n\t\t\t\t\t")];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, res.status(201).json({
-                                userData: {
-                                    _id: user._id,
-                                    name: user.name,
-                                    lastname: user.lastname,
-                                    age: user.age,
-                                    deliveryAddress: user.deliveryAddress,
-                                    phone: user.phone,
-                                    avatar: user.avatar,
-                                    admin: user.admin,
-                                },
-                                msg: 'User created',
-                            })];
-                    case 2: return [2 /*return*/, res.status(401).json(__assign({}, info))];
-                }
-            });
-        }); })(req, res, next);
+        auth_1.default.authenticate('signup', function (err, user, info) {
+            if (err)
+                return next(err);
+            if (user) {
+                return res.status(201).json({
+                    userData: {
+                        _id: user._id,
+                        name: user.name,
+                        lastname: user.lastname,
+                        age: user.age,
+                        deliveryAddress: user.deliveryAddress,
+                        phone: user.phone,
+                        avatar: user.avatar,
+                        admin: user.admin,
+                    },
+                    msg: 'User created',
+                });
+            }
+            else {
+                return res.status(401).json(__assign({}, info));
+            }
+        })(req, res, next);
     };
     AuthController.prototype.isLoggedIn = function (req, res) {
         if (req.user) {
