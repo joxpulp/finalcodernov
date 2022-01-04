@@ -263,7 +263,7 @@ var router = express_1.Router();
  *             $ref: '#/components/schemas/LoginBody'
  *     responses:
  *       200:
- *         description: OK, Returns 'userData' (if the user is an admin returns a isAdmin field) and 'loggedIn' key with true
+ *         description: OK, Returns 'userData' and 'loggedIn' key with true
  *         content:
  *           application/json:
  *             schema:
