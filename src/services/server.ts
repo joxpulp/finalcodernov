@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
+import sslRedirect from 'heroku-ssl-redirect';
 import passport from '../middlewares/auth';
 import { mongoose } from './mongoose';
 import { CONFIG } from '../config/config';
@@ -19,7 +20,7 @@ const app = express();
 export const sessionMiddleware = session({
 	store: connectMongo.create({ mongoUrl: CONFIG.MONGO_URL }),
 	secret: CONFIG.SECRET,
-	cookie: { sameSite: false, secure: 'auto', maxAge: 1000 * 120 },
+	cookie: { sameSite: true, secure: 'auto', maxAge: 1000 * 120 },
 	saveUninitialized: false,
 	resave: true,
 	rolling: true,
@@ -38,6 +39,7 @@ app.use(
 	})
 );
 
+app.use(sslRedirect());
 app.use(cookieParser());
 app.use(
 	cors({
@@ -61,7 +63,7 @@ app.use(
 
 app.use('/api', apiRouter);
 app.get('/*', (req: Request, res: Response) => {
-	const indexHtml = path.resolve('public/index.html ');
+	const indexHtml = path.resolve('public/index.html');
 	res.sendFile(indexHtml);
 });
 
