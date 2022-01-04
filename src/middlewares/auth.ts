@@ -9,6 +9,7 @@ import { userModel } from '../models/schemas/userschema';
 import { UpdateUserI } from '../models/interfaces';
 import cloudinary from '../services/cloudinary';
 import { CONFIG } from '../config/config';
+import { emailGmail } from '../services/email';
 
 // Select passport strategy
 const localStrategy = Strategy;
@@ -68,13 +69,10 @@ const signupFunc = async (
 			error: 'This email already exist, try with other option',
 		});
 	} else {
-		await email.sendEmail(
+		await emailGmail.sendEmail(
 			CONFIG.GMAIL_EMAIL,
-			`Welcome ${req.user!.name}`,
-			`Hi ${
-				req.user!.name
-			}, this email is to inform you that you are now registered 
-					`
+			`Welcome ${name}`,
+			`Hi ${name}, this email is to inform you that you are now registered`
 		);
 		const randomAvatar = `https://avatars.dicebear.com/api/bottts/${Date.now()}.svg`;
 		const { secure_url, public_id } = await cloudinary.uploader.upload(

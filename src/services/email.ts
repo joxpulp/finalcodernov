@@ -43,4 +43,4 @@ class Email {
 	}
 }
 
-export const email = new Email();
+export const emailGmail = new Email();

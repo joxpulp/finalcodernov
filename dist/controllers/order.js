@@ -83,7 +83,7 @@ var OrderController = /** @class */ (function () {
                         return [4 /*yield*/, order_1.orderModel.newOrder(req.user._id)];
                     case 2:
                         purchase = _a.sent();
-                        return [4 /*yield*/, email_1.email.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "New order notification | " + req.user.name + " | " + req.user.email, productTitles)];
+                        return [4 /*yield*/, email_1.emailGmail.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "New order notification | " + req.user.name + " | " + req.user.email, productTitles)];
                     case 3:
                         _a.sent();
                         return [2 /*return*/, res.json({ msg: purchase })];
@@ -105,7 +105,7 @@ var OrderController = /** @class */ (function () {
                         return [4 /*yield*/, order_1.orderModel.complete(req.user._id, orderId)];
                     case 2:
                         completeOrder = _a.sent();
-                        return [4 /*yield*/, email_1.email.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "Order notification | " + req.user.name + " | " + req.user.email, 'The state of your order changed to completed')];
+                        return [4 /*yield*/, email_1.emailGmail.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "Order notification | " + req.user.name + " | " + req.user.email, 'The state of your order changed to completed')];
                     case 3:
                         _a.sent();
                         return [2 /*return*/, res.json({ msg: completeOrder })];

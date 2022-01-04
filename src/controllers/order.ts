@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { CONFIG } from '../config/config';
 import { cartModel } from '../models/cart';
 import { orderModel } from '../models/order';
-import { email } from '../services/email';
+import { emailGmail } from '../services/email';
 
 class OrderController {
 	async getOrders(req: Request, res: Response) {
@@ -29,7 +29,7 @@ class OrderController {
 
 		const purchase = await orderModel.newOrder(req.user!._id);
 
-		await email.sendEmail(
+		await emailGmail.sendEmail(
 			CONFIG.GMAIL_EMAIL,
 			`New order notification | ${req.user!.name} | ${req.user!.email}`,
 			productTitles
@@ -47,7 +47,7 @@ class OrderController {
 				req.user!._id,
 				orderId
 			);
-			await email.sendEmail(
+			await emailGmail.sendEmail(
 				CONFIG.GMAIL_EMAIL,
 				`Order notification | ${req.user!.name} | ${req.user!.email}`,
 				'The state of your order changed to completed'

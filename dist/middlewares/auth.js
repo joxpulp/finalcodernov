@@ -45,6 +45,7 @@ var passport_local_1 = require("passport-local");
 var userschema_1 = require("../models/schemas/userschema");
 var cloudinary_1 = __importDefault(require("../services/cloudinary"));
 var config_1 = require("../config/config");
+var email_1 = require("../services/email");
 // Select passport strategy
 var localStrategy = passport_local_1.Strategy;
 // Define the strategy options, we use username field(email) and password field
@@ -93,7 +94,7 @@ var signupFunc = function (req, username, password, done) { return __awaiter(voi
                 return [2 /*return*/, done(null, false, {
                         error: 'This email already exist, try with other option',
                     })];
-            case 2: return [4 /*yield*/, email.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "Welcome " + req.user.name, "Hi " + req.user.name + ", this email is to inform you that you are now registered \n\t\t\t\t\t")];
+            case 2: return [4 /*yield*/, email_1.emailGmail.sendEmail(config_1.CONFIG.GMAIL_EMAIL, "Welcome " + name, "Hi " + name + ", this email is to inform you that you are now registered")];
             case 3:
                 _c.sent();
                 randomAvatar = "https://avatars.dicebear.com/api/bottts/" + Date.now() + ".svg";
