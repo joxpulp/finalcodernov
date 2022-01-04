@@ -30,6 +30,7 @@ var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var cors_1 = __importDefault(require("cors"));
 var express_session_1 = __importDefault(require("express-session"));
 var connect_mongo_1 = __importDefault(require("connect-mongo"));
+var heroku_ssl_redirect_1 = __importDefault(require("heroku-ssl-redirect"));
 var auth_1 = __importDefault(require("../middlewares/auth"));
 var mongoose_1 = require("./mongoose");
 var config_1 = require("../config/config");
@@ -42,7 +43,7 @@ var app = express_1.default();
 exports.sessionMiddleware = express_session_1.default({
     store: connect_mongo_1.default.create({ mongoUrl: config_1.CONFIG.MONGO_URL }),
     secret: config_1.CONFIG.SECRET,
-    cookie: { sameSite: false, secure: 'auto', maxAge: 1000 * 120 },
+    cookie: { sameSite: true, secure: 'auto', maxAge: 1000 * 120 },
     saveUninitialized: false,
     resave: true,
     rolling: true,
@@ -56,6 +57,7 @@ app.use(express_fileupload_1.default({
     useTempFiles: true,
     tempFileDir: '/tmp/',
 }));
+app.use(heroku_ssl_redirect_1.default());
 app.use(cookie_parser_1.default());
 app.use(cors_1.default({
     origin: true,
@@ -71,7 +73,7 @@ app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.defaul
 }));
 app.use('/api', index_1.default);
 app.get('/*', function (req, res) {
-    var indexHtml = path_1.default.resolve('public/index.html ');
+    var indexHtml = path_1.default.resolve('public/index.html');
     res.sendFile(indexHtml);
 });
 var server = new http.Server(app);
