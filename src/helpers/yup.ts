@@ -84,8 +84,7 @@ export const addProduct = Yup.object({
 
 export const addProductCart = Yup.object({
 	body: Yup.object({
-		productId: Yup.string()
-		.required('product id field is required'),
+		productId: Yup.string().required('product id field is required'),
 		quantity: Yup.number()
 			.min(1, 'quantity field must be at least 1')
 			.required('quantity field is required'),
@@ -160,9 +159,9 @@ export const editProduct = Yup.object({
 
 export const orderComplete = Yup.object({
 	body: Yup.object({
-		orderId: Yup.string().required('orderId field is required')
-	})
-})
+		orderId: Yup.string().required('orderId field is required'),
+	}).noUnknown(true),
+});
 
 export const queryProduct = Yup.object({
 	query: Yup.object({
