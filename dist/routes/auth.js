@@ -67,7 +67,7 @@ var yup_1 = require("../helpers/yup");
  *         phone:
  *           type: String
  *           description: User's phone
- *           example: '1128576884'
+ *           example: '+5491128576884'
  *         avatar:
  *           type: String
  *           description: User's avatar url
