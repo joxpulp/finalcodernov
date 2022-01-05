@@ -6,6 +6,7 @@ var yup_1 = require("../helpers/yup");
 var auth_1 = require("../middlewares/auth");
 var cartExist_1 = require("../middlewares/cartExist");
 var checkStock_1 = require("../middlewares/checkStock");
+var productExist_1 = require("../middlewares/productExist");
 var validate_1 = require("../middlewares/validate");
 /**
  * @swagger
@@ -381,7 +382,7 @@ router.get('/list/:id?', auth_1.isAuth, cartExist_1.cartExist, cart_1.cartContro
  *               $ref: '#/components/schemas/ProductInCartStockError'
  *
  */
-router.post('/add', auth_1.isAuth, validate_1.validate(yup_1.addProductCart), checkStock_1.checkStock, cart_1.cartController.addProducts);
+router.post('/add', auth_1.isAuth, validate_1.validate(yup_1.addProductCart), productExist_1.productExist, checkStock_1.checkStock, cart_1.cartController.addProducts);
 /**
  * @swagger
  * /cart/delete/{id}:

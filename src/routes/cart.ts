@@ -4,6 +4,7 @@ import { addProductCart } from '../helpers/yup';
 import { isAuth } from '../middlewares/auth';
 import { cartExist } from '../middlewares/cartExist';
 import { checkStock } from '../middlewares/checkStock';
+import { productExist } from '../middlewares/productExist';
 import { validate } from '../middlewares/validate';
 
 /**
@@ -12,7 +13,7 @@ import { validate } from '../middlewares/validate';
  *   schemas:
  *     CartResponse:
  *       type: object
- *       properties: 
+ *       properties:
  *         _id:
  *           type: String
  *           description: Cart Id
@@ -54,24 +55,24 @@ import { validate } from '../middlewares/validate';
  *           example:
  *             -  _id: 6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
- *                description: La nueva camiseta de bokita para este 2021 es lo mas 
- *                category: Camisetas de Equipos   
- *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                description: La nueva camiseta de bokita para este 2021 es lo mas
+ *                category: Camisetas de Equipos
+ *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg
  *                thumbnail_id: PRODUCTS/cyth979mt7m83r8rkis1
  *                price: 120
  *                quantity: 2
  *             -  _id: 617fe479c79d9be003c0fa25
  *                name: Piluso Boca Juniors
- *                description: Para ir a la moda toca user este piluso 
- *                category: Sombreros 
- *                thumbnail: https://http2.mlstatic.com/D_NQ_NP_958291-MLA40333873535_012020-O.jpg 
+ *                description: Para ir a la moda toca user este piluso
+ *                category: Sombreros
+ *                thumbnail: https://http2.mlstatic.com/D_NQ_NP_958291-MLA40333873535_012020-O.jpg
  *                thumbnail_id: PRODUCTS/axhw979mt7m83r8rkihx
  *                price: 10
  *                quantity: 1
  *         createdAt:
  *           type: String
  *           description: Timestamp (when the cart was created)
- *           example: 2021-11-12T13:32:57.758Z 
+ *           example: 2021-11-12T13:32:57.758Z
  *         total:
  *           type: Number
  *           description: User's total to be paid (USD)
@@ -116,14 +117,14 @@ import { validate } from '../middlewares/validate';
  *                 example: D
  *     CartError:
  *       type: object
- *       properties: 
+ *       properties:
  *         error:
  *           type: String
  *           description: Error message
  *           example: No cart created for this user, try to add some products
  *     ProductInCartResponse:
  *       type: object
- *       properties: 
+ *       properties:
  *         product:
  *           type: array
  *           items:
@@ -157,29 +158,29 @@ import { validate } from '../middlewares/validate';
  *           example:
  *             -  _id: 6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
- *                description: La nueva camiseta de bokita para este 2021 es lo mas 
- *                category: Camisetas de Equipos   
- *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                description: La nueva camiseta de bokita para este 2021 es lo mas
+ *                category: Camisetas de Equipos
+ *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg
  *                thumbnail_id: PRODUCTS/cyth979mt7m83r8rkis1
  *                price: 120
  *                quantity: 2
  *     ProductInCartError:
  *       type: object
- *       properties: 
+ *       properties:
  *         error:
  *           type: string
  *           description: Error message
  *           example: This product does not exist in the cart or was deleted
  *     ProductInCartStockError:
  *       type: object
- *       properties: 
+ *       properties:
  *         error:
  *           type: string
  *           description: Error message
  *           example: The product is out of stock or you are trying to add more than we have in stock right now
  *     AddProductToCartBody:
  *       type: object
- *       properties: 
+ *       properties:
  *         productId:
  *           type: string
  *           description: Product's id
@@ -190,7 +191,7 @@ import { validate } from '../middlewares/validate';
  *           example: 2
  *     AddProductToCartResponse:
  *       type: object
- *       properties: 
+ *       properties:
  *         productAdded:
  *           type: array
  *           items:
@@ -224,9 +225,9 @@ import { validate } from '../middlewares/validate';
  *           example:
  *             -  _id: 6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
- *                description: La nueva camiseta de bokita para este 2021 es lo mas 
- *                category: Camisetas de Equipos   
- *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                description: La nueva camiseta de bokita para este 2021 es lo mas
+ *                category: Camisetas de Equipos
+ *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg
  *                thumbnail_id: PRODUCTS/cyth979mt7m83r8rkis1
  *                price: 120
  *                quantity: 2
@@ -236,7 +237,7 @@ import { validate } from '../middlewares/validate';
  *           example: Product added to the cart
  *     DeleteProductFromCartResponse:
  *       type: object
- *       properties: 
+ *       properties:
  *         deletedProduct:
  *           type: array
  *           items:
@@ -270,9 +271,9 @@ import { validate } from '../middlewares/validate';
  *           example:
  *             -  _id: 6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
- *                description: La nueva camiseta de bokita para este 2021 es lo mas 
- *                category: Camisetas de Equipos   
- *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                description: La nueva camiseta de bokita para este 2021 es lo mas
+ *                category: Camisetas de Equipos
+ *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg
  *                thumbnail_id: PRODUCTS/cyth979mt7m83r8rkis1
  *                price: 120
  *                quantity: 2
@@ -310,7 +311,7 @@ const router = Router();
  *         description: Not Found, if there is no cart for the user
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/CartError'
  *
  */
@@ -323,9 +324,9 @@ const router = Router();
  *     parameters:
  *       - in: path
  *         name: id
- *         schema: 
- *           type: string 
- *         description: Product's id from /api/products/list endpoint 
+ *         schema:
+ *           type: string
+ *         description: Product's id from /api/products/list endpoint
  *     tags:
  *     - Cart (Protected routes, user must be logged in)
  *     responses:
@@ -345,7 +346,7 @@ const router = Router();
  *         description: Not Found, if there is no product in cart that matches the id
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductInCartError'
  *
  */
@@ -361,7 +362,7 @@ router.get('/list/:id?', isAuth, cartExist, cartController.getProducts);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/AddProductToCartBody' 
+ *             $ref: '#/components/schemas/AddProductToCartBody'
  *     tags:
  *     - Cart (Protected routes, user must be logged in)
  *     responses:
@@ -381,12 +382,19 @@ router.get('/list/:id?', isAuth, cartExist, cartController.getProducts);
  *         description: Not Found, if the product is out of stock or the quantity is bigger than the current stock.
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductInCartStockError'
  *
  */
 
-router.post('/add', isAuth, validate(addProductCart), checkStock, cartController.addProducts);
+router.post(
+	'/add',
+	isAuth,
+	validate(addProductCart),
+	productExist,
+	checkStock,
+	cartController.addProducts
+);
 
 /**
  * @swagger
@@ -396,9 +404,9 @@ router.post('/add', isAuth, validate(addProductCart), checkStock, cartController
  *     parameters:
  *       - in: path
  *         name: id
- *         schema: 
- *           type: string 
- *         description: Product's id from /api/cart/list endpoint 
+ *         schema:
+ *           type: string
+ *         description: Product's id from /api/cart/list endpoint
  *     tags:
  *     - Cart (Protected routes, user must be logged in)
  *     responses:
@@ -418,11 +426,10 @@ router.post('/add', isAuth, validate(addProductCart), checkStock, cartController
  *         description: Not Found, if there is no product in /api/cart/list endpoint that matches the id
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductInCartError'
  *
  */
-
 
 router.delete('/delete/:id', isAuth, cartExist, cartController.deleteProducts);
 
