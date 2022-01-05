@@ -8,9 +8,10 @@ export const productExist = async (
 ) => {
 	try {
 		const { id } = req.params;
+		const { productId } = req.body;
 
-		if (id) {
-			const findById = await productModel.get(id);
+		if (id || productId) {
+			const findById = await productModel.get(id || productId);
 			if (findById.length !== 0) {
 				return next();
 			}

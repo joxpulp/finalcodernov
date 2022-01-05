@@ -39,14 +39,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.productExist = void 0;
 var product_1 = require("../models/product");
 var productExist = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, findById, findAll, error_1;
+    var id, productId, findById, findAll, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 5, , 6]);
                 id = req.params.id;
-                if (!id) return [3 /*break*/, 2];
-                return [4 /*yield*/, product_1.productModel.get(id)];
+                productId = req.body.productId;
+                if (!(id || productId)) return [3 /*break*/, 2];
+                return [4 /*yield*/, product_1.productModel.get(id || productId)];
             case 1:
                 findById = _a.sent();
                 if (findById.length !== 0) {
