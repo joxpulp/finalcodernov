@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var order_1 = require("../controllers/order");
+var yup_1 = require("../helpers/yup");
 var auth_1 = require("../middlewares/auth");
 var cartExist_1 = require("../middlewares/cartExist");
+var validate_1 = require("../middlewares/validate");
 var validObjectId_1 = require("../middlewares/validObjectId");
 /**
  * @swagger
@@ -240,5 +242,5 @@ router.post('/new', auth_1.isAuth, cartExist_1.cartExist, order_1.orderControlle
  *                   example: Order does not exist
  *
  */
-router.post('/complete', auth_1.isAuth, order_1.orderController.complete);
+router.post('/complete', auth_1.isAuth, validObjectId_1.validObjectId, validate_1.validate(yup_1.orderComplete), order_1.orderController.complete);
 exports.default = router;

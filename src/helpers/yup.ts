@@ -158,6 +158,12 @@ export const editProduct = Yup.object({
 		.nullable(),
 });
 
+export const orderComplete = Yup.object({
+	body: Yup.object({
+		orderId: Yup.string().required('orderId field is required')
+	})
+})
+
 export const queryProduct = Yup.object({
 	query: Yup.object({
 		title: Yup.string()

@@ -6,9 +6,9 @@ export const validObjectId = (
 	next: NextFunction
 ) => {
 	const { id, orderId } = req.params;
-	const { productId } = req.body;
+	const { productId, orderId: orderIdBody } = req.body;
 
-	const idValidation = id || orderId || productId;
+	const idValidation = id || orderId || productId || orderIdBody;
 
 	if (idValidation) {
 		if (/^[0-9a-fA-F]{24}$/.test(idValidation)) {
@@ -16,5 +16,5 @@ export const validObjectId = (
 		}
 		return res.status(404).json({ error: 'Invalid id try with other option' });
 	}
-    return next()
+	return next();
 };

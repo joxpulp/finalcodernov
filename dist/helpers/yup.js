@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.queryProduct = exports.editProduct = exports.editUser = exports.addProductCart = exports.addProduct = exports.signup = exports.login = void 0;
+exports.queryProduct = exports.orderComplete = exports.editProduct = exports.editUser = exports.addProductCart = exports.addProduct = exports.signup = exports.login = void 0;
 var Yup = __importStar(require("yup"));
 require("yup-phone");
 var mimeType = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -138,6 +138,11 @@ exports.editProduct = Yup.object({
     })
         .noUnknown(true)
         .nullable(),
+});
+exports.orderComplete = Yup.object({
+    body: Yup.object({
+        orderId: Yup.string().required('orderId field is required')
+    })
 });
 exports.queryProduct = Yup.object({
     query: Yup.object({

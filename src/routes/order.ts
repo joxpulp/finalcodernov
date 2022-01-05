@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { orderController } from '../controllers/order';
+import { orderComplete } from '../helpers/yup';
 import { isAuth } from '../middlewares/auth';
 import { cartExist } from '../middlewares/cartExist';
+import { validate } from '../middlewares/validate';
 import { validObjectId } from '../middlewares/validObjectId';
 
 /**
@@ -247,6 +249,12 @@ router.post('/new', isAuth, cartExist, orderController.newOrder);
  *
  */
 
-router.post('/complete', isAuth, orderController.complete);
+router.post(
+	'/complete',
+	isAuth,
+	validObjectId,
+	validate(orderComplete),
+	orderController.complete
+);
 
 export default router;
