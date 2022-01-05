@@ -67,7 +67,7 @@ var yup_1 = require("../helpers/yup");
  *         phone:
  *           type: String
  *           description: User's phone
- *           example: "1128576884"
+ *           example: '1128576884'
  *         avatar:
  *           type: String
  *           description: User's avatar url
@@ -161,20 +161,20 @@ var yup_1 = require("../helpers/yup");
  *           description: User's email (must be a valid email)
  *           example: bokitforever@gmail.com
  *           required: true
- *         password:
+ *         pwd:
  *           type: String
  *           description: User's password (min. 8 characters)
+ *           example: bokitaforever
+ *           required: true
+ *         pwdConfirmation:
+ *           type: String
+ *           description: User's password confirmation (min. 8 characters)
  *           example: bokitaforever
  *           required: true
  *         name:
  *           type: String
  *           description: User's name (min. 3 characters)
  *           example: Pepito
- *           required: true
- *         lastname:
- *           type: String
- *           description: User's lastname (min. 3 characters)
- *           example: Bombonera
  *           required: true
  *         age:
  *           type: Number
@@ -184,7 +184,7 @@ var yup_1 = require("../helpers/yup");
  *         phone:
  *           type: String
  *           description: User's phone
- *           example: +5491128576884
+ *           example: '+5491128576884'
  *           required: true
  *         streetName:
  *           type: String
@@ -331,7 +331,7 @@ router.patch('/edituser', auth_2.isAuth, validate_1.validate(yup_1.editUser), au
 /**
  * @swagger
  * /auth/logout:
- *   get:
+ *   post:
  *     summary: Logout session
  *     tags:
  *     - Auth
@@ -349,7 +349,7 @@ router.patch('/edituser', auth_2.isAuth, validate_1.validate(yup_1.editUser), au
  *             schema:
  *               $ref: '#/components/schemas/LogoutError'
  */
-router.get('/logout', auth_1.authController.logout);
+router.post('/logout', auth_1.authController.logout);
 /**
  * @swagger
  * /auth/signup:

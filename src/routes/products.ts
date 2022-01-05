@@ -44,18 +44,18 @@ import { productsByCat } from '../middlewares/productsByCat';
  *                 description: Product's stock
  *           example: 
  *             -  _id:  6174e458c79d9be056c0fa2s
- *                name: Camiseta Boca Juniors 2021
- *                description:  La nueva camiseta de bokita para este 2021 es lo mas   
- *                category:  Camisetas de Equipos   
- *                thumbnail:  https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                name: Nintendo Switch
+ *                description:  This a nintendo switch   
+ *                category:  Gaming   
+ *                thumbnail:  https://res.cloudinary.com/fullstackedrans/image/upload/v1636063394/PRODUCTS/xsxpyswdpri9jwpxjonn.png 
  *                thumbnail_id:  PRODUCTS/cyth979mt7m83r8rkis1
  *                price:  60
  *                stock:  560
  *             -  _id:  617fe479c79d9be003c0fa25
- *                name: Piluso Boca Juniors
- *                description:  Para ir a la moda toca user este piluso   
- *                category:  Sombreros   
- *                thumbnail:  https://http2.mlstatic.com/D_NQ_NP_958291-MLA40333873535_012020-O.jpg 
+ *                name: Sony PlayStation 5
+ *                description:  This a playstation   
+ *                category:  Gaming   
+ *                thumbnail:  https://res.cloudinary.com/fullstackedrans/image/upload/v1636063353/PRODUCTS/nemonb4mftxldidpc7op.png 
  *                thumbnail_id:  PRODUCTS/axhw979mt7m83r8rkihx
  *                price:  10
  *                stock:  400
