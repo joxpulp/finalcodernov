@@ -5,19 +5,20 @@ import { productController } from '../controllers/products';
 import { validate } from '../middlewares/validate';
 import { addProduct, editProduct } from '../helpers/yup';
 import { productsByCat } from '../middlewares/productsByCat';
+import { validObjectId } from '../middlewares/validObjectId';
 
 /**
  * @swagger
  * components:
  *   schemas:
  *     ProductsResponse:
- *       type: object 
- *       properties: 
+ *       type: object
+ *       properties:
  *         products:
  *           type: array
- *           items: 
+ *           items:
  *             type: object
- *             properties: 
+ *             properties:
  *               _id:
  *                 type: String
  *                 description: ID del producto
@@ -42,31 +43,31 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               stock:
  *                 type: number
  *                 description: Product's stock
- *           example: 
+ *           example:
  *             -  _id:  6174e458c79d9be056c0fa2s
  *                name: Nintendo Switch
- *                description:  This a nintendo switch   
- *                category:  Gaming   
- *                thumbnail:  https://res.cloudinary.com/fullstackedrans/image/upload/v1636063394/PRODUCTS/xsxpyswdpri9jwpxjonn.png 
+ *                description:  This a nintendo switch
+ *                category:  Gaming
+ *                thumbnail:  https://res.cloudinary.com/fullstackedrans/image/upload/v1636063394/PRODUCTS/xsxpyswdpri9jwpxjonn.png
  *                thumbnail_id:  PRODUCTS/cyth979mt7m83r8rkis1
  *                price:  60
  *                stock:  560
  *             -  _id:  617fe479c79d9be003c0fa25
  *                name: Sony PlayStation 5
- *                description:  This a playstation   
- *                category:  Gaming   
- *                thumbnail:  https://res.cloudinary.com/fullstackedrans/image/upload/v1636063353/PRODUCTS/nemonb4mftxldidpc7op.png 
+ *                description:  This a playstation
+ *                category:  Gaming
+ *                thumbnail:  https://res.cloudinary.com/fullstackedrans/image/upload/v1636063353/PRODUCTS/nemonb4mftxldidpc7op.png
  *                thumbnail_id:  PRODUCTS/axhw979mt7m83r8rkihx
  *                price:  10
  *                stock:  400
  *     ProductsResponseCat:
- *       type: object 
- *       properties: 
+ *       type: object
+ *       properties:
  *         products:
  *           type: array
- *           items: 
+ *           items:
  *             type: object
- *             properties: 
+ *             properties:
  *               _id:
  *                 type: String
  *                 description: ID del producto
@@ -91,51 +92,51 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               stock:
  *                 type: number
  *                 description: Product's stock
- *           example: 
+ *           example:
  *             -  _id:  6174e458c79d9be056c0fa2s
- *                name: Camiseta Boca Juniors 2021 
- *                description:  La nueva camiseta de bokita para este 2021 es lo mas   
+ *                name: Camiseta Boca Juniors 2021
+ *                description:  La nueva camiseta de bokita para este 2021 es lo mas
  *                category:  Ropa deportiva
- *                thumbnail:  https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                thumbnail:  https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg
  *                thumbnail_id:  PRODUCTS/cyth979mt7m83r8rkis1
  *                price:  60
  *                stock:  1000
  *             -  _id:  617fe479c79d9be003c0fa25
  *                name: Piluso Boca Juniors
- *                description:  Para ir a la moda toca user este piluso   
- *                category:  Ropa deportiva   
- *                thumbnail:  https://http2.mlstatic.com/D_NQ_NP_958291-MLA40333873535_012020-O.jpg 
+ *                description:  Para ir a la moda toca user este piluso
+ *                category:  Ropa deportiva
+ *                thumbnail:  https://http2.mlstatic.com/D_NQ_NP_958291-MLA40333873535_012020-O.jpg
  *                thumbnail_id:  PRODUCTS/axhw979mt7m83r8rkihx
  *                price:  10
  *                stock:  500
  *     ProductsError:
  *       type: object
- *       properties: 
+ *       properties:
  *         error:
  *           type: String
  *           description: Error message
  *           example: There are no products in db
  *     ProductsErrorCat:
  *       type: object
- *       properties: 
+ *       properties:
  *         error:
  *           type: string
  *           description: Error message
  *           example: There are no products with this category
  *     ProductError:
  *       type: object
- *       properties: 
+ *       properties:
  *         error:
  *           type: string
  *           description: Error message
- *           example: This product does not exist in db or was deleted 
+ *           example: This product does not exist in db or was deleted
  *     AddProductBody:
  *       type: object
- *       properties: 
+ *       properties:
  *         thumbnail:
  *           type: file
  *           format: binary
- *           description: Product's thumbnail img (Only .png .jpeg .jpg)   
+ *           description: Product's thumbnail img (Only .png .jpeg .jpg)
  *         name:
  *           type: String
  *           description: Product's name
@@ -156,7 +157,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *       properties:
  *         addedProduct:
  *           type: object
- *           properties: 
+ *           properties:
  *             name:
  *               type: String
  *               description: Product's name
@@ -171,7 +172,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               example: Balon de Futbol
  *             thumbnail:
  *               type: String
- *               description: Product's thumbnail url  
+ *               description: Product's thumbnail url
  *               example: https://m.media-amazon.com/images/I/81b7GfAYf5L._AC_SY450_.jpg
  *             thumbnail_id:
  *               type: String
@@ -198,7 +199,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *       properties:
  *         updatedProduct:
  *           type: object
- *           properties: 
+ *           properties:
  *             name:
  *               type: String
  *               description: Product's name
@@ -213,7 +214,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *               example: Balon de Futbol
  *             thumbnail:
  *               type: String
- *               description: Product's thumbnail url  
+ *               description: Product's thumbnail url
  *               example: https://m.media-amazon.com/images/I/81b7GfAYf5L._AC_SY450_.jpg
  *             thumbnail_id:
  *               type: String
@@ -237,7 +238,7 @@ import { productsByCat } from '../middlewares/productsByCat';
  *           example: Product Updated
  *     ProductDeletedResponse:
  *       type: object
- *       properties: 
+ *       properties:
  *         deletedProduct:
  *           type: array
  *           items:
@@ -271,22 +272,27 @@ import { productsByCat } from '../middlewares/productsByCat';
  *           example:
  *             -  _id: 6174e458c79d9be056c0fa2s
  *                name: Camiseta Boca Juniors 2021
- *                description: La nueva camiseta de bokita para este 2021 es lo mas 
- *                category: Camisetas de Equipos   
- *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg 
+ *                description: La nueva camiseta de bokita para este 2021 es lo mas
+ *                category: Camisetas de Equipos
+ *                thumbnail: https://todosobrecamisetas.com/wp-content/uploads/tercera-camiseta-adidas-boca-juniors-2021-22-1.jpg
  *                thumbnail_id: PRODUCTS/cyth979mt7m83r8rkis1
  *                price: 120
  *                stock: 700
  *         msg:
  *           type: String
  *           description: Success message
- *           example: Product Deleted 
- * 
+ *           example: Product Deleted
+ *
  */
 
 const router = Router();
 
-router.get('/listbyid/:id', productExist, productController.getProduct);
+router.get(
+	'/listbyid/:id',
+	validObjectId,
+	productExist,
+	productController.getProduct
+);
 
 /**
  * @swagger
@@ -306,7 +312,7 @@ router.get('/listbyid/:id', productExist, productController.getProduct);
  *         description: Not Found, if there are no products in db
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductsError'
  *
  */
@@ -319,8 +325,8 @@ router.get('/listbyid/:id', productExist, productController.getProduct);
  *     parameters:
  *       - in: path
  *         name: category
- *         schema: 
- *           type: string 
+ *         schema:
+ *           type: string
  *         description: Product's category
  *     tags:
  *     - Products
@@ -335,7 +341,7 @@ router.get('/listbyid/:id', productExist, productController.getProduct);
  *         description: Not Found, if there are no products that matches the category
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductsErrorCat'
  *
  */
@@ -366,22 +372,17 @@ router.get('/list/:category?', productsByCat, productController.getProductsCat);
  *         description: Bad Request, if field validation fails
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ValidationErrors'
  *       401:
  *         description: Unauthorized, if user is not logged in with ADMIN role
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/AdminError'
  */
 
-router.post(
-	'/add',
-	isAuth,
-	validate(addProduct),
-	productController.addProduct
-);
+router.post('/add', isAuth, validate(addProduct), productController.addProduct);
 
 /**
  * @swagger
@@ -391,9 +392,9 @@ router.post(
  *     parameters:
  *       - in: path
  *         name: id
- *         schema: 
- *           type: string 
- *         description: Product's id 
+ *         schema:
+ *           type: string
+ *         description: Product's id
  *     tags:
  *     - Products
  *     requestBody:
@@ -412,19 +413,19 @@ router.post(
  *         description: Bad Request, if field validation fails
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ValidationErrors'
  *       401:
  *         description: Unauthorized, if user is not logged in with ADMIN role
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/AdminError'
  *       404:
  *         description: Not Found, if there is no product that matches the id
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductError'
  */
 
@@ -438,15 +439,15 @@ router.patch(
 
 /**
  * @swagger
- * 
+ *
  * /products/delete/{id}:
  *   delete:
  *     summary: Delete a product from db (user must be logged in and with ADMIN role to access this route)
  *     parameters:
  *       - in: path
  *         name: id
- *         schema: 
- *           type: string 
+ *         schema:
+ *           type: string
  *         description: Product's id
  *     tags:
  *     - Products
@@ -467,7 +468,7 @@ router.patch(
  *         description: Not Found, if there is no product that matches the id
  *         content:
  *           application/json:
- *             schema: 
+ *             schema:
  *               $ref: '#/components/schemas/ProductError'
  *
  */
@@ -480,4 +481,3 @@ router.delete(
 );
 
 export default router;
-

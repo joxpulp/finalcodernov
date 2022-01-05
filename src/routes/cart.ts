@@ -6,6 +6,7 @@ import { cartExist } from '../middlewares/cartExist';
 import { checkStock } from '../middlewares/checkStock';
 import { productExist } from '../middlewares/productExist';
 import { validate } from '../middlewares/validate';
+import { validObjectId } from '../middlewares/validObjectId';
 
 /**
  * @swagger
@@ -351,7 +352,13 @@ const router = Router();
  *
  */
 
-router.get('/list/:id?', isAuth, cartExist, cartController.getProducts);
+router.get(
+	'/list/:id?',
+	isAuth,
+	validObjectId,
+	cartExist,
+	cartController.getProducts
+);
 
 /**
  * @swagger
@@ -391,6 +398,7 @@ router.post(
 	'/add',
 	isAuth,
 	validate(addProductCart),
+	validObjectId,
 	productExist,
 	checkStock,
 	cartController.addProducts
@@ -431,6 +439,12 @@ router.post(
  *
  */
 
-router.delete('/delete/:id', isAuth, cartExist, cartController.deleteProducts);
+router.delete(
+	'/delete/:id',
+	isAuth,
+	validObjectId,
+	cartExist,
+	cartController.deleteProducts
+);
 
 export default router;

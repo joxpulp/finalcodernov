@@ -84,7 +84,8 @@ export const addProduct = Yup.object({
 
 export const addProductCart = Yup.object({
 	body: Yup.object({
-		productId: Yup.string().required('product id field is required'),
+		productId: Yup.string()
+		.required('product id field is required'),
 		quantity: Yup.number()
 			.min(1, 'quantity field must be at least 1')
 			.required('quantity field is required'),
@@ -144,7 +145,7 @@ export const editProduct = Yup.object({
 			.max(30000, 'price field max is 30000'),
 		stock: Yup.number()
 			.min(0, 'stock field min is 1')
-			.max(30000, 'stock field max is 30000')
+			.max(30000, 'stock field max is 30000'),
 	}).noUnknown(true),
 	files: Yup.object({
 		thumbnail: Yup.mixed().test(

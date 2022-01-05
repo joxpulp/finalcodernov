@@ -7,6 +7,7 @@ var products_1 = require("../controllers/products");
 var validate_1 = require("../middlewares/validate");
 var yup_1 = require("../helpers/yup");
 var productsByCat_1 = require("../middlewares/productsByCat");
+var validObjectId_1 = require("../middlewares/validObjectId");
 /**
  * @swagger
  * components:
@@ -285,7 +286,7 @@ var productsByCat_1 = require("../middlewares/productsByCat");
  *
  */
 var router = express_1.Router();
-router.get('/listbyid/:id', productExist_1.productExist, products_1.productController.getProduct);
+router.get('/listbyid/:id', validObjectId_1.validObjectId, productExist_1.productExist, products_1.productController.getProduct);
 /**
  * @swagger
  * /products/list:

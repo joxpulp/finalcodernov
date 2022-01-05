@@ -8,6 +8,7 @@ var cartExist_1 = require("../middlewares/cartExist");
 var checkStock_1 = require("../middlewares/checkStock");
 var productExist_1 = require("../middlewares/productExist");
 var validate_1 = require("../middlewares/validate");
+var validObjectId_1 = require("../middlewares/validObjectId");
 /**
  * @swagger
  * components:
@@ -348,7 +349,7 @@ var router = express_1.Router();
  *               $ref: '#/components/schemas/ProductInCartError'
  *
  */
-router.get('/list/:id?', auth_1.isAuth, cartExist_1.cartExist, cart_1.cartController.getProducts);
+router.get('/list/:id?', auth_1.isAuth, validObjectId_1.validObjectId, cartExist_1.cartExist, cart_1.cartController.getProducts);
 /**
  * @swagger
  * /cart/add:
@@ -382,7 +383,7 @@ router.get('/list/:id?', auth_1.isAuth, cartExist_1.cartExist, cart_1.cartContro
  *               $ref: '#/components/schemas/ProductInCartStockError'
  *
  */
-router.post('/add', auth_1.isAuth, validate_1.validate(yup_1.addProductCart), productExist_1.productExist, checkStock_1.checkStock, cart_1.cartController.addProducts);
+router.post('/add', auth_1.isAuth, validate_1.validate(yup_1.addProductCart), validObjectId_1.validObjectId, productExist_1.productExist, checkStock_1.checkStock, cart_1.cartController.addProducts);
 /**
  * @swagger
  * /cart/delete/{id}:
@@ -417,5 +418,5 @@ router.post('/add', auth_1.isAuth, validate_1.validate(yup_1.addProductCart), pr
  *               $ref: '#/components/schemas/ProductInCartError'
  *
  */
-router.delete('/delete/:id', auth_1.isAuth, cartExist_1.cartExist, cart_1.cartController.deleteProducts);
+router.delete('/delete/:id', auth_1.isAuth, validObjectId_1.validObjectId, cartExist_1.cartExist, cart_1.cartController.deleteProducts);
 exports.default = router;

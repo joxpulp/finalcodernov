@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { orderController } from '../controllers/order';
 import { isAuth } from '../middlewares/auth';
 import { cartExist } from '../middlewares/cartExist';
+import { validObjectId } from '../middlewares/validObjectId';
 
 /**
  * @swagger
@@ -158,7 +159,7 @@ const router = Router();
  *
  */
 
-router.get('/list/:orderId?', isAuth, orderController.getOrders);
+router.get('/list/:orderId?', isAuth, validObjectId, orderController.getOrders);
 
 /**
  * @swagger

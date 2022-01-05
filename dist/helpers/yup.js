@@ -94,7 +94,8 @@ exports.addProduct = Yup.object({
 });
 exports.addProductCart = Yup.object({
     body: Yup.object({
-        productId: Yup.string().required('product id field is required'),
+        productId: Yup.string()
+            .required('product id field is required'),
         quantity: Yup.number()
             .min(1, 'quantity field must be at least 1')
             .required('quantity field is required'),
@@ -130,7 +131,7 @@ exports.editProduct = Yup.object({
             .max(30000, 'price field max is 30000'),
         stock: Yup.number()
             .min(0, 'stock field min is 1')
-            .max(30000, 'stock field max is 30000')
+            .max(30000, 'stock field max is 30000'),
     }).noUnknown(true),
     files: Yup.object({
         thumbnail: Yup.mixed().test('fileType', 'File type not supported only .png .jpg .jpeg', function (value) { return mimeType.includes(value.mimetype); }),

@@ -4,6 +4,7 @@ var express_1 = require("express");
 var order_1 = require("../controllers/order");
 var auth_1 = require("../middlewares/auth");
 var cartExist_1 = require("../middlewares/cartExist");
+var validObjectId_1 = require("../middlewares/validObjectId");
 /**
  * @swagger
  * components:
@@ -155,7 +156,7 @@ var router = express_1.Router();
  *               $ref: '#/components/schemas/PurchasesError'
  *
  */
-router.get('/list/:orderId?', auth_1.isAuth, order_1.orderController.getOrders);
+router.get('/list/:orderId?', auth_1.isAuth, validObjectId_1.validObjectId, order_1.orderController.getOrders);
 /**
  * @swagger
  * /orders/new:
